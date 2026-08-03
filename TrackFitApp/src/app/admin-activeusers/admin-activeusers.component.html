@@ -1,0 +1,80 @@
+<div class="today-page">
+    <div class="top-section">
+
+      <h2>
+
+        <i class="fa fa-fire"></i>
+
+        Today's Active Users
+
+      </h2>
+
+      <div class="count-card">
+
+        <p>Active Today</p>
+
+        <h1>{{ todayCount }}</h1>
+
+      </div>
+
+    </div>
+    <div class="table-card">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+
+            <th><i class="fa fa-user"></i> Name</th>
+
+            <th><i class="fa fa-envelope"></i> Email</th>
+
+            <th>Workout Progress</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let user of todayUsers; let i = index">
+
+            <td>{{ i + 1 }}</td>
+
+            <td class="name">{{ user.userName }}</td>
+
+            <td>{{ user.emailId }}</td>
+            <td>
+
+              <div class="progress-bar">
+
+                <div
+
+                  class="progress-fill"
+
+                  [style.width.%]="user.progress">
+
+                </div>
+
+              </div>
+
+              <span class="progress-text">
+
+                {{ user.progress | number:'1.0-0' }}%
+
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>

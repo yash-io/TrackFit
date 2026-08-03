@@ -1,0 +1,43 @@
+<div class="leaderboard-container">
+
+  <h2 class="title">🏆 Leaderboard</h2>
+  <div class="top3-container">
+
+    <div *ngFor="let user of top3; let i = index"
+         class="top-card"
+         [ngClass]="'rank-' + (i + 1)">
+
+      <div class="rank-badge"> #{{ user.rank }}
+      </div>
+
+      <div class="avatar"> {{ user.userName[0] }}
+      </div>
+
+      <div class="user-name">{{ user.userName }}
+      </div>
+
+      <div class="stats">
+
+        <div class="points"> {{ user.score }} pts
+        </div>
+
+        <div class="streak">🔥 {{ user.currentStreak }} days
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+    <div class="list-container">
+
+      <div *ngFor="let user of others" class="list-item">
+        <span class="rank">#{{user.rank}}</span>
+        <span class="name">{{user.userName}}</span>
+        <span class="score">{{user.score}}</span>
+        <span class="streak">🔥 {{user.currentStreak}}</span>
+      </div>
+
+    </div>
+
+  </div>

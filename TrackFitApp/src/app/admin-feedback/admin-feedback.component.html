@@ -1,0 +1,83 @@
+<div class="feedback-page">
+    <div class="top-section">
+
+      <h2>
+
+        <i class="fa fa-comments"></i>
+
+        User Feedback
+
+      </h2>
+
+      <div class="count-card">
+
+        <p>Total Feedbacks</p>
+
+        <h1>{{ totalFeedbacks }}</h1>
+
+      </div>
+
+    </div>
+    <div class="table-container">
+
+      <table class="feedback-table">
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+
+            <th><i class="fa fa-user"></i> Name</th>
+
+            <th><i class="fa fa-star"></i> Rating</th>
+
+            <th>Feedback</th>
+
+            <th>Date</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of feedbacks; let i = index">
+
+            <td>{{ i + 1 }}</td>
+
+            <td class="name">{{ item.userName }}</td>
+            <td>
+
+              <div class="star-rating">
+
+                <i *ngFor="let star of [1,2,3,4,5]; let i = index"
+                   class="fa"
+                   [ngClass]="i < item.rating ? 'fa-star star-filled' : 'fa-star star-empty'">
+
+                </i>
+
+              </div>
+
+            </td>
+
+            <td class="feedback-text">
+
+              {{ item.message }}
+
+            </td>
+
+            <td class="date">
+
+              {{ item.createdDate | date:'short' }}
+
+            </td>
+
+          </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+</div>

@@ -1,0 +1,430 @@
+.reminder-page {
+  max-width: 960px;
+  margin: 30px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: #2c3e50;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+  max-width: 360px;
+}
+
+.toast-icon {
+  font-size: 24px;
+}
+
+.toast-msg {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+  .toast-close:hover {
+    opacity: 1;
+  }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+  .header-left h2 {
+    margin: 0;
+    font-size: 26px;
+    color: #2c3e50;
+  }
+
+.badge {
+  background: #e74c3c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.btn-primary {
+  background: #8e44ad;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+  .btn-primary:hover {
+    background: #7d3c98;
+  }
+
+.msg-success, .msg-error {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.msg-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.msg-error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.next-reminder-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(102,126,234,0.3);
+}
+
+.next-icon {
+  font-size: 28px;
+}
+
+.next-info {
+  flex: 1;
+}
+
+.next-label {
+  font-size: 11px;
+  opacity: 0.8;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.next-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.next-type-icon {
+  font-size: 28px;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  margin-bottom: 28px;
+}
+
+  .form-card h3 {
+    margin-bottom: 20px;
+    color: #34495e;
+  }
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+    .form-group input:focus {
+      border-color: #8e44ad;
+      outline: none;
+    }
+
+.type-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.type-btn, .type-btn-active {
+  border: 2px solid #ddd;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+  .type-btn:hover {
+    border-color: #8e44ad;
+    color: #8e44ad;
+  }
+
+.type-btn-active {
+  border-color: #8e44ad;
+  background: #8e44ad;
+  color: #fff;
+}
+
+.suggestions {
+  margin-bottom: 16px;
+}
+
+.suggestion-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.chip {
+  background: #f0e6f6;
+  color: #8e44ad;
+  border: 1px solid #d7bde2;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+  .chip:hover {
+    background: #8e44ad;
+    color: #fff;
+  }
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-save {
+  background: #8e44ad;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancel {
+  background: #bdc3c7;
+  color: #333;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.reminder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.reminder-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid #8e44ad;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+  .reminder-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+.card-completed {
+  opacity: 0.6;
+}
+
+.type-water {
+  border-top-color: #3498db;
+}
+
+.type-workout {
+  border-top-color: #e67e22;
+}
+
+.type-goal {
+  border-top-color: #27ae60;
+}
+
+.type-custom {
+  border-top-color: #8e44ad;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.type-icon {
+  font-size: 22px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  flex: 1;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-pending {
+  background: #f39c12;
+}
+
+.dot-done {
+  background: #27ae60;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 10px;
+}
+
+.card-time {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.card-status {
+  margin-bottom: 14px;
+}
+
+.badge-pending, .badge-completed {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.badge-pending {
+  background: #fef3cd;
+  color: #856404;
+}
+
+.badge-completed {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  flex: 1;
+  border: none;
+  padding: 7px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-edit {
+  background: #eaf4fb;
+  color: #2980b9;
+}
+
+.btn-complete {
+  background: #eafaf1;
+  color: #27ae60;
+}
+
+.btn-delete {
+  background: #fdf2f8;
+  color: #c0392b;
+}
+
+.btn-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

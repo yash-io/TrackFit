@@ -1,0 +1,38 @@
+/* Full page */
+.help-page {
+  height: 100vh;
+  background-color: #1f2430;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  font-size: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.back {
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* Menu list */
+.menu-list {
+  margin-top: 10px;
+}
+
+/* Each item */
+.menu-item {
+  padding: 18px;
+  border-bottom: 1px solid #2c2f3a;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+  .menu-item:hover {
+    background-color: #2c2f3a;
+  }

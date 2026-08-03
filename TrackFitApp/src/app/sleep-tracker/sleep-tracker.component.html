@@ -1,0 +1,197 @@
+<div class="sleep-page">
+
+  <div class="sleep-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-icon"><i class="fa fa-moon"></i></div>
+      <div>
+        <div class="page-title">Sleep Tracker</div>
+        <p class="page-sub">Track and monitor your sleep quality daily</p>
+      </div>
+    </div>
+
+    <!-- Alert Messages -->
+    <div *ngIf="successMsg" class="alert-success">
+      <i class="fa fa-check-circle"></i> {{ successMsg }}
+    </div>
+    <div *ngIf="errorMsg" class="alert-error">
+      <i class="fa fa-exclamation-circle"></i> {{ errorMsg }}
+    </div>
+
+    <!-- Log Sleep Form -->
+    <div class="card-section">
+      <h4 class="section-title"><i class="fa fa-plus-circle"></i> Log Sleep</h4>
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>Sleep Hours</label>
+          <input type="number"
+                 [(ngModel)]="sleepHours"
+                 placeholder="e.g. 7.5"
+                 min="0.5" max="24" step="0.5"
+                 class="form-input"
+                 (input)="clearMessages()" />
+          <span class="input-hint">Enter hours between 0.5 and 24</span>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date"
+                 [(ngModel)]="sleepDate"
+                 [min]="yesterday"
+                 [max]="yesterday"
+                 class="form-input"
+                 (change)="clearMessages()" />
+          <span class="input-hint">Logging sleep for yesterday</span>
+        </div>
+
+        <div class="form-group btn-group">
+          <button class="btn-log"
+                  (click)="addSleep()"
+                  [disabled]="isLoading">
+            <i class="fa" [ngClass]="isLoading ? 'fa-spinner fa-spin' : 'fa-bed'"></i>
+            {{ isLoading ? 'Saving...' : 'Log Sleep' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- View Toggle -->
+    <div class="view-toggle">
+      <button [ngClass]="viewMode === 'daily' ? 'toggle-active' : 'toggle-btn'"
+              (click)="viewMode = 'daily'">
+        <i class="fa fa-list"></i> Daily History
+      </button>
+      <button [ngClass]="viewMode === 'weekly' ? 'toggle-active' : 'toggle-btn'"
+              (click)="viewMode = 'weekly'">
+        <i class="fa fa-bar-chart"></i> Weekly View
+      </button>
+    </div>
+
+    <!-- DAILY HISTORY VIEW -->
+    <div *ngIf="viewMode === 'daily'" class="card-section">
+      <h4 class="section-title"><i class="fa fa-history"></i> Sleep History</h4>
+
+      <div *ngIf="allHistory.length === 0" class="empty-state">
+        <i class="fa fa-moon-o"></i>
+        <p>No sleep records found. Log your first entry above!</p>
+      </div>
+
+      <div *ngIf="allHistory.length > 0" class="table-wrap">
+        <table class="sleep-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Duration</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of allHistory">
+
+              <!-- Normal row -->
+              <ng-container *ngIf="editingId !== record.sleepId">
+                <td>{{ formatDate(record.sleepDate) }}</td>
+                <td>
+                  <span class="hours-badge">
+                    <i class="fa fa-clock-o"></i> {{ record.sleepHours }} hrs
+                  </span>
+                </td>
+                <td>
+                  <span class="status-badge" [ngClass]="getSleepStatusClass(record.sleepHours || 0)">
+                    {{ getSleepStatus(record.sleepHours || 0) }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <button class="btn-edit" (click)="startEdit(record)" title="Edit">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                  <button class="btn-delete" (click)="deleteSleep(record.sleepId)" title="Delete">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <!-- Edit row -->
+              <ng-container *ngIf="editingId === record.sleepId">
+                <td>{{ formatDate(record.sleepDate) }}</td>
+                <td>
+                  <input type="number"
+                         [(ngModel)]="editHours"
+                         min="0.5" max="24" step="0.5"
+                         class="edit-input" />
+                </td>
+                <td></td>
+                <td class="actions">
+                  <button class="btn-save" (click)="saveEdit(record.sleepId)" title="Save">
+                    <i class="fa fa-check"></i>
+                  </button>
+                  <button class="btn-cancel" (click)="cancelEdit()" title="Cancel">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </td>
+              </ng-container>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WEEKLY VIEW -->
+    <div *ngIf="viewMode === 'weekly'" class="card-section">
+      <h4 class="section-title"><i class="fa fa-bar-chart"></i> Last 7 Days</h4>
+
+      <!-- Weekly Summary Stats -->
+      <div class="weekly-stats">
+        <div class="stat-box">
+          <div class="stat-value">{{ getAvgWeeklySleep() }}</div>
+          <div class="stat-label">Avg hrs / night</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">{{ getTotalWeeklySleep().toFixed(1) }}</div>
+          <div class="stat-label">Total hrs this week</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">{{ weeklyData.length }}</div>
+          <div class="stat-label">Days tracked</div>
+        </div>
+      </div>
+
+      <div *ngIf="weeklyData.length === 0" class="empty-state">
+        <i class="fa fa-moon-o"></i>
+        <p>No data for the last 7 days. Start logging sleep!</p>
+      </div>
+
+      <div *ngIf="weeklyData.length > 0" class="bar-chart">
+        <div class="goal-label">Recommended: 8 hrs</div>
+
+        <div class="bars-row">
+          <div *ngFor="let item of weeklyData" class="bar-col">
+            <div class="bar-value">{{ item.sleepHours }}h</div>
+            <div class="bar-wrap">
+              <div class="goal-line"></div>
+              <div class="bar-fill"
+                   [ngClass]="getBarClass(item.sleepHours || 0)"
+                   [style.height.%]="getBarHeight(item.sleepHours || 0)">
+              </div>
+            </div>
+            <div class="bar-day">{{ getDayLabel(item.sleepDate) }}</div>
+            <div class="bar-date">{{ formatDate(item.sleepDate) }}</div>
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <span class="legend-item"><span class="dot dot-good"></span> Good (7-9h)</span>
+          <span class="legend-item"><span class="dot dot-fair"></span> Fair (6-7h)</span>
+          <span class="legend-item"><span class="dot dot-poor"></span> Poor (less than 6h)</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

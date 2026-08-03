@@ -1,0 +1,183 @@
+:root {
+  --bg-main: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --card-bg: rgba(0, 0, 0, 0.6);
+  --close-btn-filter: invert(1);
+  --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --text-color: #e2e8f0;
+  --input-bg: #1e293b;
+  --border-color: #334155;
+  --primary: #6366f1;
+  --accent: #ff8c00;
+  --accent-dim: rgba(255, 140, 0, 0.12);
+  --accent-mid: rgba(255, 140, 0, 0.28);
+  --accent-hot: rgba(255, 80, 0, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --radius-card: 28px;
+  --radius-badge: 22px;
+  --radius-stat: 18px;
+}
+
+.light-theme {
+  --bg-main: linear-gradient(120deg, #f6f9fc, #e9eff5);
+  --close-btn-filter: invert(0);
+  --bg-gradient: linear-gradient(135deg, #eef2f7, #f8fafc);
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --text-color: #2d3748;
+  --input-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --primary: #4c6ef5;
+}
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+/*@import "~font-awesome/css/font-awesome.css";*/
+
+
+/* Background */
+.auth-container {
+  min-height:calc(100vh - 60px); 
+  background: var(--bg-gradient);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 0;
+  margin-top: 40px;
+}
+
+/* Card */
+.auth-card {
+    padding-top: 20px !important;
+  width: 380px;
+  border-radius: 18px;
+  backdrop-filter: blur(20px);
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+  border: 1px solid rgba(255,255,255,0.1);
+  height: auto;
+  min-height: unset;
+}
+
+body {
+  transition: all 0.3s ease;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  margin:0;
+}
+
+/*heading*/
+  .auth-card h3 {
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+/* Labels */
+label {
+ color: var(--text-color) !important;
+}
+
+/* Input */
+input,
+textarea,
+select{
+    background: var(--input-bg) !important;
+    color: var(--text-color) !important;
+}
+
+
+.form-control {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: 0.2s ease;
+}
+
+.form-control::placeholder{
+    color:#94a3b8 !important;
+}
+  /* Focus */
+  .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(76, 110, 245, 0.15);
+    background: var(--input-bg);
+  }
+
+  /* Remove bootstrap icons */
+  .form-control.is-valid,
+  .form-control.is-invalid {
+    background-image: none !important;
+    padding-right: 12px !important;
+  }
+
+.input-group {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+/*  overflow: visible;*/
+}
+
+  /* Remove inner borders */
+  .input-group .form-control {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+/* Eye icon */
+.input-group-text {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color:var(--text-color)
+}
+
+.input-group-text:hover {
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 2px rgba(76, 110, 245, 0.15);
+}
+
+/*error */
+.text-danger {
+  font-size: 12px;
+}
+
+.text-success {
+  font-size: 13px;
+}
+
+.mb-3 {
+  margin-bottom: 16px !important;
+}
+
+.auth-footer {
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0.8;
+}
+
+.auth-link {
+  color: #4dabf7;
+  margin-left: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+  .auth-link:hover {
+    color: #74c0fc;
+  }
+
+
+  router-outlet + * {
+      margin-top: 60px;
+  }

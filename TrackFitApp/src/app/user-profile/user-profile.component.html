@@ -1,0 +1,108 @@
+<div class="auth-container d-flex justify-content-center align-items-center vh-100">
+
+  <div class="auth-card p-4">
+
+    <h3 class="text-center mb-4">Complete Your Profile</h3>
+
+    <div class="avatar-container">
+
+      <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button>
+
+      <div class="avatar-list" #avatarScroll>
+        <img *ngFor="let img of avatars"
+             [src]="img || 'assests/default-avatar.png'"
+             class="avatar"
+             [class.selected]="selectedAvatar === img"
+             (click)="selectAvatar(img)">
+      </div>
+
+      <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button>
+
+    </div>
+
+    <!--form-->
+
+    <form #profileForm="ngForm" (ngSubmit)="saveProfile(profileForm)">
+
+      <div class="mb-3">
+        <label>Age</label>
+        <input type="number"
+               name="age"
+               class="form-control"
+               [(ngModel)]="profile.age"
+               required
+               min="10"
+               max="100">
+  <div *ngIf="profileForm.submitted && !profile.age" class="text-danger">Age is required </div>
+  <div *ngIf="profileForm.submitted && profile.age && (profile.age < 10 || profile.age > 100)" class="text-danger">
+    Age must be between 10 and 100
+  </div>
+        </div>
+
+      <div class="mb-3">
+        <label>Height (cm)</label>
+        <input type="number"
+               name="height"
+               class="form-control"
+               [(ngModel)]="profile.height"
+               required
+               min="100"
+               max="250">
+        <div *ngIf="profileForm.submitted && (profile.height < 100 || profile.height > 250)" class="text-danger">
+          Height must be between 100 cm and 250 cm
+        </div>
+
+
+      </div>
+
+      <div class="mb-3">
+        <label>Weight (kg)</label>
+        <input type="number"
+               name="weight"
+               class="form-control"
+               [(ngModel)]="profile.weight"
+               required
+               min="30"
+               max="200">
+        <div *ngIf="profileForm.submitted && (profile.weight < 30 || profile.weight > 200)"
+             class="text-danger">
+          Weight must be between 30 kg and 200 kg
+        </div>
+      </div>
+
+        <div class="mb-3">
+          <label>Goal</label>
+          <select name="goal"
+                  class="form-control"
+                  [(ngModel)]="profile.goal"
+                  [required]="!isUpdatedMode" >
+            <option value="">Select Goal</option>
+            <option>Weight Loss</option>
+            <option>Muscle Gain</option>
+            <option>Maintain Fitness</option>
+          </select>
+          <div *ngIf="profileForm.submitted && !profile.goal" class="text-danger">Goal is required</div>
+        </div>
+
+
+    <div class="d-flex justify-content-between mt-3">
+
+      <button type="submit" class="btn btn-primary">
+
+        Save Profile
+
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="skipProfile()">
+        Skip →
+      </button>
+
+    </div>
+        <div class="text-danger text-center" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        </form>
+
+      </div>
+
+    </div>

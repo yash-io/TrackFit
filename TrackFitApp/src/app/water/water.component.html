@@ -1,0 +1,206 @@
+
+<div class="page-container">
+
+  <div class="page-header">
+    <h2>💧 Water Intake</h2>
+  </div>
+
+  <div *ngIf="message"
+       [ngClass]="isSuccess ? 'msg-success' : 'msg-error'">
+    {{ message }}
+  </div>
+
+  <div class="top-cards">
+
+    <div class="info-card recommended-card">
+      <div class="info-icon">💡</div>
+      <div class="info-text">
+        <span class="info-label">Recommended Daily Intake</span>
+        <span class="info-value">{{ recommended }} mL</span>
+        <span class="info-sub">Based on your weight & goal</span>
+      </div>
+    </div>
+
+    <div class="info-card today-card">
+      <div class="info-icon">📊</div>
+      <div class="info-text">
+        <span class="info-label">Today's Total</span>
+        <span class="info-value">{{ getTodayTotal() }} mL</span>
+        <span class="info-sub">{{ todayEntries.length }} entries today</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-card">
+    <h3>{{ isEditMode ? '✏️ Edit Entry' : '➕ Log Water Intake' }}</h3>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Quantity (mL)</label>
+        <input type="number"
+               [(ngModel)]="quantityMl"
+               placeholder="e.g. 250"
+               min="1" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-primary" (click)="addWater()">
+        {{ isEditMode ? '💾 Update' : '💧 Add Water' }}
+      </button>
+      <button class="btn-cancel"
+              *ngIf="isEditMode"
+              (click)="cancelEdit()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="section-card">
+
+    <div class="section-header">
+      <h3>💡 Hydration Suggestions</h3>
+      <button class="btn-outline"
+              (click)="showTimingForm = !showTimingForm">
+        ⏰ Set My Timings
+      </button>
+    </div>
+
+    <div class="timing-form" *ngIf="showTimingForm">
+      <p class="timing-hint">
+        Optional: Set your timings for personalized suggestions
+      </p>
+
+      <div class="timing-grid">
+        <div class="form-group">
+          <label>🌅 Wake-up Time</label>
+          <input type="time" [(ngModel)]="wakeUpTime" />
+        </div>
+        <div class="form-group">
+          <label>🍽️ Breakfast Time</label>
+          <input type="time" [(ngModel)]="breakfastTime" />
+        </div>
+        <div class="form-group">
+          <label>🥗 Lunch Time</label>
+          <input type="time" [(ngModel)]="lunchTime" />
+        </div>
+        <div class="form-group">
+          <label>🍱 Dinner Time</label>
+          <input type="time" [(ngModel)]="dinnerTime" />
+        </div>
+        <div class="form-group">
+          <label>🌙 Sleep Time</label>
+          <input type="time" [(ngModel)]="sleepTime" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary"
+                (click)="generateTimedSuggestions()">
+          ✅ Generate My Suggestions
+        </button>
+        <button class="btn-cancel"
+                (click)="showTimingForm = false">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <div class="suggestion-grid">
+      <div class="suggestion-card"
+           *ngFor="let s of suggestions"
+           (click)="fillFromSuggestion(s.amount)">
+        <div class="suggestion-icon">{{ s.icon }}</div>
+        <div class="suggestion-info">
+          <span class="suggestion-title">{{ s.title }}</span>
+          <span class="suggestion-sub">{{ s.subtitle }}</span>
+          <span class="suggestion-amount">{{ s.amount }} mL</span>
+        </div>
+        <div class="suggestion-tap">Tap to fill ➜</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <h3>📋 Today's Entries</h3>
+    </div>
+
+    <div class="empty-state"
+         *ngIf="todayEntries.length === 0">
+      No entries today. Start logging! 💧
+    </div>
+
+    <div class="entry-list" *ngIf="todayEntries.length > 0">
+      <div class="entry-row"
+           *ngFor="let entry of todayEntries">
+        <span class="entry-icon">💧</span>
+        <span class="entry-amount">
+          {{ entry.quantityMl }} mL
+        </span>
+        <span class="entry-time">
+          {{ entry.intakeTime | date:'shortTime' }}
+        </span>
+        <div class="entry-actions">
+          <button class="btn-xs-edit"
+                  (click)="editEntry(entry)">
+            ✏️
+          </button>
+          <button class="btn-xs-delete"
+                  (click)="deleteEntry(entry.waterId!)">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <h3>🕓 Full History</h3>
+      <button class="btn-outline"
+              (click)="showHistory = !showHistory">
+        {{ showHistory ? 'Hide' : 'Show' }} History
+      </button>
+    </div>
+
+    <div *ngIf="showHistory">
+      <div class="empty-state"
+           *ngIf="waterHistory.length === 0">
+        No history found.
+      </div>
+
+      <table class="history-table"
+             *ngIf="waterHistory.length > 0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Amount</th>
+            <th>Date & Time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of waterHistory; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>💧 {{ entry.quantityMl }} mL</td>
+            <td>{{ entry.intakeTime | date:'medium' }}</td>
+            <td>
+              <button class="btn-xs-edit"
+                      (click)="editEntry(entry)">
+                ✏️
+              </button>
+              <button class="btn-xs-delete"
+                      (click)="deleteEntry(entry.waterId!)">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

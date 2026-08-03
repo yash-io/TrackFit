@@ -1,0 +1,140 @@
+.users-page {
+  padding: 30px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+  .top-section h2 {
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  .top-section i {
+    margin-right: 8px;
+    color: #6c63ff;
+  }
+
+/* USER COUNT CARD */
+
+.user-count-card {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 15px 25px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+  .user-count-card h1 {
+    margin: 5px 0 0;
+    font-size: 28px;
+  }
+
+/* TABLE CARD */
+
+.table-card {
+  background: white;
+  border-radius: 14px;
+  padding: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+/* TABLE */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  color: white;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+td {
+  padding: 12px;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+/* ROW STYLE */
+
+tbody tr {
+  border-bottom: 1px solid #edf2f7;
+  transition: 0.2s;
+}
+
+  tbody tr:hover {
+    background: #f1f5ff;
+  }
+
+/* NAME */
+
+.name {
+  font-weight: 600;
+}
+
+/* EMAIL */
+
+.email {
+  color: #4a5568;
+}
+
+/* BADGE */
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.streak {
+  font-weight: 600;
+  color: #dd6b20;
+}
+
+.inactive {
+  background: #fed7d7;
+  color: #c53030;
+}
+
+.active {
+  background: #c6f6d5;
+  color: #2f855a;
+}
+
+
+/* BUTTON */
+
+.btn-block {
+  background: #ff6b6b;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+  .btn-block:hover {
+    background: #e53e3e;
+  }

@@ -1,0 +1,273 @@
+<div class="food-search-container">
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- FIRST SEARCH — Calorie lookup per 100g only               -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <h1 class="main-title">Food Calorie Finder</h1>
+  <p class="note-text">Calories are calculated as per 100 grams</p>
+
+  <div class="search-row">
+    <input type="text"
+           [(ngModel)]="foodInput100g"
+           (input)="onFoodInput100gChange()"
+           placeholder="Enter up to 5 foods (rice, egg, apple)" />
+
+    <button (click)="searchFood100g()">
+      Search Calories
+    </button>
+
+    <p class="error-text" *ngIf="errorMessage100g">{{ errorMessage100g }}</p>
+  </div>
+
+  <!-- First Total Box — per 100g -->
+  <div class="total-box" *ngIf="totalCalories100g > 0">
+    <div class="total-box-inner">
+      <span class="total-label">Total Calories</span>
+      <span class="total-value">{{ totalCalories100g }} kcal 🔥</span>
+    </div>
+    <button class="details-btn" (click)="openPopup100g()">View Details</button>
+  </div>
+
+  <!-- First Popup — ONLY shows food name + kcal per 100g -->
+  <div class="popup-overlay" *ngIf="showPopup100g" (click)="closePopup100g()">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <h3>Food Details (per 100g)</h3>
+        <button class="close-btn" (click)="closePopup100g()">&times;</button>
+      </div>
+      <div class="popup-body">
+        <div class="food-card" *ngFor="let food of foodResults100g">
+          <h4>{{ food.foodName }}</h4>
+          <p>{{ food.calories }} kcal per 100g</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- LOG MEALS HEADING                                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <div class="section-divider">
+    <div class="section-heading-wrapper">
+      <span class="section-line"></span>
+      <h2 class="section-heading">🍽️ Log Meals</h2>
+      <span class="section-line"></span>
+    </div>
+    <p class="section-subtext">Track your daily meals and monitor calories</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MEAL SECTION — Second search with quantity + serving size  -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <div class="meal-section">
+    <h3 class="meal-section-title">Select Meal Details</h3>
+    <div class="meal-wrapper">
+      <select [(ngModel)]="mealType">
+        <option value="">Select Meal</option>
+        <option>Breakfast</option>
+        <option>Lunch</option>
+        <option>Dinner</option>
+      </select>
+      <input type="date" [(ngModel)]="mealTime" />
+    </div>
+  </div>
+
+  <p *ngIf="!mealType" class="warning-text">⚠️ Please select meal type first</p>
+
+  <!-- SECOND SEARCH ROW -->
+  <div class="search-row">
+    <input type="text"
+           [(ngModel)]="foodInput"
+           (input)="onFoodInputChange()"
+           [disabled]="!mealType"
+           placeholder="Enter foods (rice, egg)" />
+
+    <button class="action-btn"
+            (click)="searchFood()"
+            [disabled]="!mealType">
+      Search Calories
+    </button>
+
+    <button class="action-btn save-btn"
+            (click)="saveMeal()"
+            [disabled]="!mealType">
+      Add Meal
+    </button>
+
+    <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+
+  <!-- VIEW MEALS BUTTON -->
+  <div class="view-meals-wrapper">
+    <button class="view-meals-btn" (click)="loadMeals()">📋 View Meals</button>
+  </div>
+
+  <!-- Second Total Box -->
+  <div *ngIf="totalCalories > 0" class="total-box">
+    <div class="total-box-inner">
+      <span class="total-label">Total Calories</span>
+      <span class="total-value">{{ totalCalories | number:'1.0-0' }} kcal 🔥</span>
+    </div>
+    <button class="details-btn" (click)="openPopup()">View Details</button>
+  </div>
+
+  <!-- Second Popup — full quantity/serving controls -->
+  <div *ngIf="showPopup" class="popup-overlay" (click)="closePopup()">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <h3>Food Details</h3>
+        <button class="close-btn" (click)="closePopup()">&times;</button>
+      </div>
+
+      <div class="popup-body">
+        <div *ngFor="let food of foodResults" class="food-card">
+          <h4>{{ food.foodName }}</h4>
+          <p class="food-card-base">{{ food.calories }} kcal per 100g</p>
+
+          <div class="food-card-fields">
+            <div class="field-group">
+              <label>Calories (per 100g)</label>
+              <input type="number"
+                     [(ngModel)]="food.calories"
+                     (input)="updateTotalCalories()" />
+            </div>
+            <div class="field-group">
+              <label>Quantity</label>
+              <input type="number"
+                     [(ngModel)]="food.quantity"
+                     min="1"
+                     (input)="updateTotalCalories()" />
+            </div>
+            <div class="field-group">
+              <label>Serving</label>
+              <select [(ngModel)]="food.unit" (change)="updateTotalCalories()">
+                <option value="grams">Grams</option>
+                <option value="cup">Cup (250g)</option>
+                <option value="ounce">Ounce (28.35g)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="food-card-result">
+            <span>⚖️ {{ getGrams(food) }} g</span>
+            <span>🔥 {{ (getGrams(food)/100)*food.calories | number:'1.0-0' }} kcal</span>
+          </div>
+          <hr class="card-divider" />
+        </div>
+      </div>
+
+      <button class="close-popup-btn" (click)="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MEALS LIST                                                 -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <div *ngIf="showMeals" class="meal-list">
+    <h2 class="meals-list-title">Your Meals</h2>
+
+    <div *ngFor="let meal of meals" class="meal-card">
+
+      <!-- NORMAL VIEW -->
+      <ng-container *ngIf="editingMealId !== (meal.mealId || meal.MealId)">
+
+        <div class="meal-card-header">
+          <h3>
+            {{ meal.mealType || meal.MealType }}
+            <span class="meal-date">({{ (meal.mealDate || meal.MealDate) | date:'yyyy-MM-dd' }})</span>
+          </h3>
+          <div class="meal-actions">
+            <button class="edit-btn" (click)="openEditMeal(meal)">✏️ Edit</button>
+            <button class="delete-btn" (click)="deleteMeal(meal.mealId || meal.MealId)">🗑️ Delete</button>
+          </div>
+        </div>
+
+        <div *ngFor="let item of (meal.items || meal.Items)" class="meal-item-row">
+          <span class="item-name">{{ item.foodName || item.FoodName }}</span>
+          <span class="item-cals">
+            {{ item.calories || item.Calories }} kcal
+            × {{ item.quantity || item.Quantity }}
+          </span>
+        </div>
+
+      </ng-container>
+
+      <!-- EDIT VIEW -->
+      <ng-container *ngIf="editingMealId === (meal.mealId || meal.MealId)">
+
+        <h3 class="edit-heading">✏️ Editing Meal</h3>
+
+        <div class="edit-row">
+          <label>Meal Type:</label>
+          <select [(ngModel)]="editMealType">
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+          </select>
+        </div>
+
+        <div class="edit-row">
+          <label>Date:</label>
+          <input type="date" [(ngModel)]="editMealTime" />
+        </div>
+
+        <h4 class="items-label">Items:</h4>
+
+        <div *ngFor="let item of editItems; let i = index" class="edit-item-row-block">
+
+          <div class="edit-item-name">
+            <label>Food:</label>
+            <input type="text"
+                   [(ngModel)]="item.foodName"
+                   placeholder="Type food name then tab"
+                   (blur)="searchEditItemCalories(item)" />
+          </div>
+
+          <div class="calories-info-row">
+            <span *ngIf="item.baseCalories > 0">📊 {{ item.baseCalories }} kcal per 100g</span>
+            <span *ngIf="item.baseCalories === 0" class="fetching-hint">⚡ Tab out of food name to fetch calories</span>
+          </div>
+
+          <div class="edit-item-name">
+            <label>Quantity:</label>
+            <input type="number"
+                   [(ngModel)]="item.quantity"
+                   min="1"
+                   (input)="item.calories = getEditCalories(item)" />
+          </div>
+
+          <div class="edit-item-name">
+            <label>Serving:</label>
+            <select [(ngModel)]="item.unit" (change)="item.calories = getEditCalories(item)">
+              <option value="grams">Grams</option>
+              <option value="cup">Cup (250g)</option>
+              <option value="ounce">Ounce (28.35g)</option>
+            </select>
+          </div>
+
+          <div class="edit-item-summary">
+            <span>⚖️ Grams: {{ getEditGrams(item) }} g</span>
+            <span>🔥 Calories: {{ getEditCalories(item) }} kcal</span>
+            <button class="delete-btn small-icon-btn" (click)="removeEditItem(i)">✕ Remove</button>
+          </div>
+
+        </div>
+
+        <button class="add-item-btn" (click)="addEditItem()">+ Add Item</button>
+
+        <div class="edit-footer">
+          <button class="action-btn" (click)="saveEdit()">💾 Save</button>
+          <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+        </div>
+
+      </ng-container>
+
+      <hr class="meal-divider" />
+    </div>
+  </div>
+
+</div>

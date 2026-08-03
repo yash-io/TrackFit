@@ -1,0 +1,281 @@
+.navbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 15px 20px;
+  background: #1e293b;
+  color: white;
+  width : 100%;
+  height: 60px;
+  z-index : 9999;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+  .overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; 
+  width: 300px;
+  height: 100%;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #ff4d4d;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+  .logout-btn:hover {
+    background: #e60000;
+  }
+
+  /* When open */
+  .sidebar.open {
+    right: 0;
+  }
+
+/* Close button */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: white;
+  float: right;
+  cursor: pointer;
+}
+
+/* Menu */
+.sidebar ul {
+  list-style: none;
+  padding: 50px 0 0;
+}
+
+.sidebar li {
+  margin: 20px 0;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.menu-title{
+    font-size : 14px;
+    color : #aaa;
+    margin-bottom: 10px
+}
+
+.nav-right {
+  display: flex;
+  gap : 12px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+
+.nav-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+.nav-avatar:hover {
+    transform : scale(1.08);
+}
+
+.view-profile-link {
+  color: var(--text-color) !important;
+  font-size: 14px !important;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+  .view-profile-link:hover {
+    color: var(--primary) !important;
+  }
+.nav-right {
+    display : flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: gray;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.help-text{
+    display:inline-block;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+.theme-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.theme-btn i {
+  color: white;
+  font-size: 18px;
+}
+
+.theme-btn:hover i {
+  color: #4cc6f5;
+  transform: scale(1.1);
+}
+
+.leaderboard-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.leaderboard-icon {
+  font-size: 18px;
+  color: var(--text-color);
+  transition: 0.3s;
+}
+
+  .leaderboard-icon:hover {
+    color: gold;
+    transform: scale(1.2);
+  }
+
+.tooltip-text {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.leaderboard-wrapper:hover .tooltip-text {
+  opacity: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.menu-item:hover{
+    background-color: #2a2f3a;
+    border-radius: 8px;
+}
+
+.material-icons{
+    font-size: 22px;
+    color: #60a5fa
+}
+
+.notification-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-icon {
+  font-size: 18px;
+  color: #cbd5f5;
+  transition: 0.3s;
+}
+
+  .notification-icon:hover {
+    color: #38bdf8;
+    transform: scale(1.2);
+  }
+
+.notification-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: -30px; /* appears below icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.notification-wrapper:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}

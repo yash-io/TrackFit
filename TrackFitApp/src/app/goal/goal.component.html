@@ -1,0 +1,297 @@
+
+<div class="page-container">
+
+  <div class="page-header">
+    <h2>My Goals</h2>
+    <button class="btn-primary" (click)="showAddGoalForm()">
+      + Add Goal
+    </button>
+  </div>
+
+  <div *ngIf="message"
+       [ngClass]="isSuccess ? 'msg-success' : 'msg-error'">
+    {{ message }}
+  </div>
+
+  <div class="form-card" *ngIf="isGoalFormVisible">
+    <h3>{{ isGoalEditMode ? '✏️ Edit Goal' : '➕ New Goal' }}</h3>
+
+    <div class="form-group">
+      <label>Goal Type</label>
+      <select [(ngModel)]="currentGoal.goalType">
+        <option value="" disabled>Select your goal</option>
+        <option *ngFor="let type of goalTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Target Value</label>
+      <input type="number"
+             [(ngModel)]="currentGoal.targetValue"
+             [placeholder]="getPlaceholder()" />
+      <small class="hint">{{ getHint() }}</small>
+    </div>
+
+    <div class="form-group">
+      <label>Deadline</label>
+      <input type="date" [(ngModel)]="currentGoal.deadline" [min]="getTodayDate()"/>
+    </div>
+
+    <div class="form-group" *ngIf="isGoalEditMode">
+      <label>Status</label>
+      <select [(ngModel)]="currentGoal.status">
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+        <option value="Paused">Paused</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-save" (click)="saveGoal()">
+        {{ isGoalEditMode ? 'Update' : 'Save' }}
+      </button>
+      <button class="btn-cancel" (click)="cancelGoalForm()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="empty-state"
+       *ngIf="goals.length === 0 && !isGoalFormVisible">
+    <p>🎯 No goals yet. Click <strong>+ Add Goal</strong> to begin!</p>
+  </div>
+
+  <div class="goal-list">
+    <div class="goal-card"
+         *ngFor="let goal of goals"
+         [ngClass]="{'completed': goal.status === 'Completed',
+                     'expanded': expandedGoalId === goal.goalId}">
+
+      <div class="goal-card-top">
+
+        <div class="goal-info">
+          <div class="goal-title-row">
+            <span class="goal-icon">{{ getGoalIcon(goal.goalType) }}</span>
+            <span class="goal-type">{{ goal.goalType }}</span>
+            <span class="goal-badge"
+                  [ngClass]="'badge-' + (goal.status || 'in-progress').replace(' ','-').toLowerCase()">
+              {{ goal.status }}
+            </span>
+          </div>
+
+          <div class="goal-meta">
+            <span>🎯 Target: <strong>{{ goal.targetValue }}</strong></span>
+            <span>
+              📅 Deadline:
+              <strong>{{ goal.deadline | date:'mediumDate' }}</strong>
+            </span>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-label">
+              Progress: {{ getProgress(goal) }}%
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill"
+                   [style.width.%]="getProgress(goal)"
+                   [ngClass]="getProgress(goal) >= 100 ?
+                               'progress-complete' : 'progress-active'">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-actions">
+          <button class="btn-primary"
+                  (click)="editGoal(goal); $event.stopPropagation()">
+            Edit Goal
+          </button>
+          <button class="btn-icon btn-complete"
+                  (click)="markComplete(goal.goalId!);
+                           $event.stopPropagation()"
+                  [disabled]="goal.status === 'Completed'">
+           Mark as Complete
+          </button>
+          <button class="btn-icon btn-delete"
+                  (click)="deleteGoal(goal.goalId!);
+                           $event.stopPropagation()">
+             Delete
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-expand"
+              (click)="toggleGoalExpand(goal)">
+        {{
+ expandedGoalId === goal.goalId ?
+           '▲ Hide Workouts & Plan' :
+           '▼ View Workouts & Plan'
+        }}
+      </button>
+
+      <div class="expanded-section"
+           *ngIf="expandedGoalId === goal.goalId">
+
+        <div class="mini-tabs">
+          <button [ngClass]="activeTab==='workout' ? 'tab-active' : 'tab'"
+                  (click)="setTab('workout', goal)">
+            🏋️ Workout Log
+          </button>
+          <button [ngClass]="activeTab==='plan' ? 'tab-active' : 'tab'"
+                  (click)="setTab('plan', goal)">
+            🗓️ Workout Plan
+          </button>
+        </div>
+
+        <div *ngIf="activeTab === 'workout'">
+
+          <div class="section-header">
+            <h4>Workouts for {{ goal.goalType }}</h4>
+            <button class="btn-sm-primary"
+                    (click)="showAddWorkoutForm(goal.goalId!)">
+              + Add Workout
+            </button>
+          </div>
+
+          <div class="workout-form"
+               *ngIf="isWorkoutFormVisible[goal.goalId!]">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Exercise</label>
+                <select [(ngModel)]="currentWorkout.exerciseName">
+                  <option value="" disabled>Select exercise</option>
+                  <option *ngFor="let ex of getExercisesForGoal(goal.goalType)"
+                          [value]="ex">
+                    {{ ex }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Duration (minutes)</label>
+                <input type="number"
+                       [(ngModel)]="currentWorkout.duration"
+                       placeholder="e.g. 30" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-save"
+                      (click)="saveWorkout(goal)">
+                {{ isWorkoutEditMode ? 'Update' : 'Save' }}
+              </button>
+              <button class="btn-cancel"
+                      (click)="cancelWorkoutForm(goal.goalId!)">
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <div class="workout-list">
+            <div class="no-workouts"
+                 *ngIf="!workoutsByGoal[goal.goalId!] ||
+                         workoutsByGoal[goal.goalId!].length === 0">
+              No workouts logged yet for this goal.
+            </div>
+
+            <div class="workout-row"
+                 *ngFor="let w of workoutsByGoal[goal.goalId!]">
+              <span class="workout-name">🏋️ {{ w.exerciseName }}</span>
+              <span class="workout-stat">⏱ {{ w.duration }} min</span>
+              <span class="workout-stat">🔥 {{ w.caloriesBurned }} cal</span>
+              <span class="workout-date">
+                {{ w.workoutDate | date:'short' }}
+              </span>
+              <div class="workout-btns">
+                <button class="btn-xs-edit"
+                        (click)="editWorkout(w, goal.goalId!)">
+                  ✏️
+                </button>
+                <button class="btn-xs-delete"
+                        (click)="deleteWorkout(w.workoutId!, goal)">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div *ngIf="activeTab === 'plan'">
+
+          <h4 class="plan-title">7-Day Plan — {{ goal.goalType }}</h4>
+
+          <div class="plan-grid">
+            <div class="plan-day-card"
+                 *ngFor="let day of planByGoal[goal.goalId!]"
+                 [ngClass]="day.isRestDay ? 'rest-day-card' : ''">
+
+              
+              <div class="plan-day-header">
+                <div class="day-number-box">{{ day.day }}</div>
+                <div class="day-info">
+                  <span class="day-name-text">{{ day.dayName }}</span>
+                  <span class="day-focus-text">{{ day.focus }}</span>
+                </div>
+              </div>
+
+             
+              <div *ngIf="day.isRestDay" class="rest-content">
+                <span class="rest-icon">😴</span>
+                <p class="rest-text">Rest Day</p>
+                <small>Recover. Come back stronger.</small>
+              </div>
+
+            
+              <div *ngIf="!day.isRestDay" class="exercises-wrapper">
+                <div class="exercise-card"
+                     *ngFor="let ex of day.exercises">
+
+                 
+                  <div class="ex-header">
+                    <span class="ex-name-text">{{ ex.name }}</span>
+                    <span class="ex-diff-badge"
+                          [ngClass]="'diff-' + ex.difficulty.toLowerCase()">
+                      {{ ex.difficulty }}
+                    </span>
+                  </div>
+
+                
+                  <div class="ex-stats-row">
+                    <div class="ex-stat-box">
+                      <span class="stat-label">Sets</span>
+                      <span class="stat-value">{{ ex.sets }}</span>
+                    </div>
+                    <div class="ex-stat-box">
+                      <span class="stat-label">Reps</span>
+                      <span class="stat-value">{{ ex.reps }}</span>
+                    </div>
+                    <div class="ex-stat-box">
+                      <span class="stat-label">Rest</span>
+                      <span class="stat-value">{{ ex.restTime }}</span>
+                    </div>
+                  </div>
+
+                  
+                  <div class="ex-best-time-row">
+                    <span class="best-time-label">Best Time</span>
+                    <span class="best-time-value">{{ ex.bestTime }}</span>
+                  </div>
+
+                  
+                  <div class="ex-why-row">
+                    {{ ex.whyThisEx }}
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

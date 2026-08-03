@@ -1,0 +1,23 @@
+<div class="container">
+  <!--<h2>🔔 Notifications</h2>-->
+  <!--<button (click)="fetchNotifications()">Refresh</button>
+
+  <p class="response">{{ responseMessage }}</p>-->
+  <!-- Notifications List -->
+  <ul *ngIf="notifications.length > 0">
+    <li *ngFor="let n of notifications">
+      {{ n.message }}
+    </li>
+  </ul>
+
+  <p *ngIf="!notifications || notifications.length === 0">
+    No notifications found.
+  </p>
+
+  <button (click)="fetchNotifications()">Refresh</button>
+
+  <p class="response">{{ responseMessage }}</p>
+
+  <!--<p>Count: {{ notifications?.length }}</p>-->
+
+</div>

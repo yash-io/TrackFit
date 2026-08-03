@@ -1,0 +1,25 @@
+<div class="article">
+
+  <div class="back" routerLink="/learn">← Back</div>
+
+  <h1>{{ content.title }}</h1>
+
+  <img [src]="content.image" class="article-img" />
+
+  <div *ngFor="let section of content.sections">
+
+    <h2>{{ section.heading }}</h2>
+
+    <p *ngIf="section.text">
+      {{ section.text }}
+    </p>
+
+    <ul *ngIf="section.points">
+      <li *ngFor="let point of section.points">
+        {{ point }}
+      </li>
+    </ul>
+
+  </div>
+
+</div>

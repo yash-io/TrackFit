@@ -1,0 +1,175 @@
+<div class="auth-container d-flex justify-content-center align-items-center">
+
+  <div class="auth-card p-4">
+
+    <h3 class="text-center mb-2">Create Account</h3>
+
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+
+      <div class="mb-3">
+        <label>User Name</label>
+
+        <input type="text" name="userName" class="form-control"
+               ngModel required minlength="3"
+               #nameRef="ngModel"
+               [class.is-invalid]="nameRef.invalid && (nameRef.dirty || nameRef.touched)"
+               [class.is-valid]="nameRef.valid && (nameRef.dirty || nameRef.touched)">
+
+        <div *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)"
+             class="text-danger small">
+
+          <div *ngIf="nameRef.errors?.['required']">
+            Username is required
+          </div>
+
+          <div *ngIf="nameRef.errors?.['minlength']">
+            Minimum 3 characters required
+          </div>
+
+        </div>
+      </div>
+      <div class="mb-3">
+
+        <label>Email</label>
+
+        <input type="email" name="emailId" class="form-control"
+               ngModel required email
+               #emailRef="ngModel"
+               [class.is-invalid]="emailRef.invalid && (emailRef.dirty || emailRef.touched)"
+               [class.is-valid]="emailRef.valid && (emailRef.dirty || emailRef.touched)">
+
+        <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)"
+             class="text-danger small">
+
+          <div *ngIf="emailRef.errors?.['required']">
+            Email is required
+          </div>
+
+          <div *ngIf="emailRef.errors?.['email']">
+            Enter valid email
+          </div>
+
+        </div>
+      </div>
+
+      <!--PASSWORD-->
+
+      <div class="mb-3 position-relative">
+
+        <label>Password</label>
+
+        <small class="d-block" [ngClass]="rules.length ? 'text-success' : 'text-danger'">
+
+          {{ rules.length ?  '✓' : '•' }} Minimum 8 characters
+
+        </small>
+
+        <small class="d-block" [ngClass]="rules.upper ? 'text-success' : 'text-danger'">
+
+          {{ rules.upper ?  '✓' : '•' }} One uppercase letter
+
+        </small>
+
+        <small class="d-block" [ngClass]="rules.lower ? 'text-success' : 'text-danger'">
+
+          {{ rules.lower ?  '✓' : '•' }} One lowercase letter
+
+        </small>
+
+        <small class="d-block" [ngClass]="rules.number ? 'text-success' : 'text-danger'">
+
+          {{ rules.number ?  '✓' : '•' }} One number
+
+        </small>
+
+        <small class="d-block" [ngClass]="rules.special ? 'text-success' : 'text-danger'">
+
+          {{ rules.special ?  '✓' : '•' }} One special character
+
+        </small>
+
+        <input [type]="showPassword ? 'text' : 'password'"
+               name="password"
+               class="form-control"
+               [(ngModel)]="password"
+               (input)="checkPassword()"
+               required
+               #passwordRef="ngModel"
+               [class.is-invalid]="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)"
+               [class.is-valid]="passwordRef.valid && (passwordRef.dirty || passwordRef.touched)" />
+
+
+        <i class="fa"
+           [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+           (click)="showPassword = !showPassword"
+           style="position:absolute; right:15px; top:38px; cursor:pointer;"></i>
+
+        <div *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)"
+             class="text-danger small">
+
+          <div *ngIf="passwordRef.errors?.['required']">Password is required</div>
+        </div>
+
+      </div>
+
+      <div class="mb-3 position-relative">
+
+        <label>Confirm Password</label>
+
+        <input [type]="showConfirmPassword ? 'text' : 'password'"
+               name="Confirmpassword"
+               class="form-control"
+               ngModel
+               required
+               #confirmRef="ngModel"
+               [class.is-invalid]="confirmRef.invalid && confirmRef.dirty || (confirmRef.touched && passwordRef.value !== confirmRef.value)"
+               [class.is-valid]="confirmRef.valid && (confirmRef.dirty || confirmRef.touched) && passwordRef.value === confirmRef.value" />
+        <i class="fa"
+           [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"
+           (click)="showConfirmPassword = !showConfirmPassword"
+           style="position:absolute; right:15px; top:38px; cursor:pointer;"></i>
+
+        <div *ngIf="confirmRef.touched" class="text-danger small">
+          <div *ngIf="confirmRef.errors?.['required']">Confirm password is required</div>
+          <div *ngIf="confirmRef.touched && !confirmRef.errors?.['required'] && passwordRef.value !== confirmRef.value" class="text-danger small">
+            Password do not match
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="successMsg" class="text-success text-center mb-2">
+        {{ successMsg }}
+      </div>
+
+      <button class="btn btn-primary w-100"
+              [disabled]="registerForm.invalid || passwordRef.value !== confirmRef.value">
+        Register
+      </button>
+
+
+
+      <button type="button"
+              class="btn btn-secondary w-100"
+              (click)="registerForm.reset()">
+        Reset
+      </button>
+ 
+
+
+
+
+  <p class="auth-footer">
+
+    Already have an account?
+
+    <span routerLink="/login" class="auth-link">Login</span>
+
+  </p>
+
+
+
+  </form>
+
+</div>
+
+    </div>

@@ -1,0 +1,858 @@
+/* ══════════════════════════════════════════════
+   ROOT & CONTAINER
+══════════════════════════════════════════════ */
+.food-search-container {
+  max-width: 780px;
+  margin: 30px auto;
+  padding: 30px 28px 40px;
+  background: #0d1b2a;
+  border-radius: 16px;
+  color: #e0f7fa;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ══════════════════════════════════════════════
+   TITLE & NOTE
+══════════════════════════════════════════════ */
+.main-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00e5ff;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.note-text {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #80cbc4;
+  margin-bottom: 24px;
+}
+
+/* ══════════════════════════════════════════════
+   SEARCH ROW
+══════════════════════════════════════════════ */
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+  .search-row input {
+    flex: 1;
+    min-width: 200px;
+    padding: 11px 16px;
+    background: #112233;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    color: #e0f7fa;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+    .search-row input:focus {
+      border-color: #00e5ff;
+    }
+
+    .search-row input:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+  .search-row button,
+  .search-row .action-btn {
+    padding: 11px 20px;
+    background: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+    .search-row button:hover,
+    .search-row .action-btn:hover {
+      background: #005fa3;
+      transform: translateY(-1px);
+    }
+
+    .search-row button:disabled,
+    .search-row .action-btn:disabled {
+      background: #1e3a5f;
+      color: #4a6a8a;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+.save-btn {
+  background: #00897b !important;
+}
+
+  .save-btn:hover:not(:disabled) {
+    background: #00695c !important;
+  }
+
+/* ══════════════════════════════════════════════
+   ERROR / WARNING TEXT
+══════════════════════════════════════════════ */
+.error-text {
+  width: 100%;
+  color: #ff5252;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.warning-text {
+  color: #ffab40;
+  font-size: 0.88rem;
+  margin: -8px 0 12px;
+  padding: 8px 14px;
+  background: rgba(255, 171, 64, 0.08);
+  border-left: 3px solid #ffab40;
+  border-radius: 4px;
+}
+
+/* ══════════════════════════════════════════════
+   TOTAL BOX
+══════════════════════════════════════════════ */
+.total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: linear-gradient(135deg, #0d2137, #0a3050);
+  border: 1px solid #00e5ff44;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 16px 0 24px;
+}
+
+.total-box-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.total-label {
+  font-size: 0.8rem;
+  color: #80cbc4;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00e5ff;
+}
+
+/* ══════════════════════════════════════════════
+   SECTION DIVIDER — LOG MEALS HEADING
+══════════════════════════════════════════════ */
+.section-divider {
+  margin: 32px 0 24px;
+  text-align: center;
+}
+
+.section-heading-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00e5ff55, transparent);
+  max-width: 160px;
+}
+
+.section-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00e5ff;
+  white-space: nowrap;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.section-subtext {
+  font-size: 0.83rem;
+  color: #607d8b;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════
+   MEAL SECTION (select + date)
+══════════════════════════════════════════════ */
+.meal-section {
+  background: #0a1f33;
+  border: 1px solid #1e3a5f;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.meal-section-title {
+  font-size: 1rem;
+  color: #00e5ff;
+  margin: 0 0 14px;
+  font-weight: 600;
+}
+
+.meal-wrapper {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+  .meal-wrapper select,
+  .meal-wrapper input[type="date"] {
+    flex: 1;
+    min-width: 160px;
+    padding: 10px 14px;
+    background: #112233;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    color: #e0f7fa;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+    .meal-wrapper select:focus,
+    .meal-wrapper input[type="date"]:focus {
+      border-color: #00e5ff;
+    }
+
+/* ══════════════════════════════════════════════
+   VIEW MEALS BUTTON
+══════════════════════════════════════════════ */
+.view-meals-wrapper {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.view-meals-btn {
+  padding: 11px 32px;
+  background: transparent;
+  border: 2px solid #00e5ff;
+  color: #00e5ff;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  letter-spacing: 0.3px;
+}
+
+  .view-meals-btn:hover {
+    background: #00e5ff;
+    color: #0d1b2a;
+    transform: translateY(-1px);
+  }
+
+/* ══════════════════════════════════════════════
+   BUTTONS — details-btn
+══════════════════════════════════════════════ */
+.details-btn {
+  padding: 9px 20px;
+  background: #00bcd4;
+  color: #0d1b2a;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+  .details-btn:hover {
+    background: #00e5ff;
+    transform: translateY(-1px);
+  }
+
+/* ══════════════════════════════════════════════
+   POPUP OVERLAY & CONTENT
+══════════════════════════════════════════════ */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.popup-content {
+  background: #0d1b2a;
+  border: 1px solid #00e5ff44;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1e3a5f;
+}
+
+  .popup-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #00e5ff;
+  }
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #80cbc4;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+  .close-btn:hover {
+    color: #ff5252;
+  }
+
+.popup-body {
+  overflow-y: auto;
+  padding: 16px 20px;
+  flex: 1;
+}
+
+.close-popup-btn {
+  margin: 12px 20px 16px;
+  padding: 10px;
+  width: calc(100% - 40px);
+  background: #1e3a5f;
+  color: #e0f7fa;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+  .close-popup-btn:hover {
+    background: #0077cc;
+  }
+
+/* ══════════════════════════════════════════════
+   FOOD CARD (inside popup)
+══════════════════════════════════════════════ */
+.food-card {
+  background: #0a1f33;
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+  .food-card h4 {
+    margin: 0 0 4px;
+    color: #00e5ff;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
+
+  .food-card p,
+  .food-card-base {
+    margin: 0 0 12px;
+    color: #80cbc4;
+    font-size: 0.85rem;
+  }
+
+.food-card-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 100px;
+  gap: 4px;
+}
+
+  .field-group label {
+    font-size: 0.75rem;
+    color: #607d8b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .field-group input,
+  .field-group select {
+    padding: 8px 10px;
+    background: #112233;
+    border: 1px solid #1e3a5f;
+    border-radius: 6px;
+    color: #e0f7fa;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+    .field-group input:focus,
+    .field-group select:focus {
+      border-color: #00e5ff;
+    }
+
+.food-card-result {
+  display: flex;
+  gap: 20px;
+  font-size: 0.88rem;
+  color: #80cbc4;
+  padding: 8px 0 4px;
+}
+
+  .food-card-result span {
+    color: #00e5ff;
+    font-weight: 600;
+  }
+
+.card-divider {
+  border: none;
+  border-top: 1px solid #1e3a5f;
+  margin: 10px 0 0;
+}
+
+/* ══════════════════════════════════════════════
+   MEALS LIST
+══════════════════════════════════════════════ */
+.meal-list {
+  margin-top: 28px;
+}
+
+.meals-list-title {
+  font-size: 1.4rem;
+  color: #00e5ff;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.meal-card {
+  background: #0a1f33;
+  border: 1px solid #1e3a5f;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+
+  .meal-card:hover {
+    border-color: #00e5ff44;
+  }
+
+.meal-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+  .meal-card-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #e0f7fa;
+    font-weight: 600;
+  }
+
+.meal-date {
+  color: #607d8b;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.meal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.meal-item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #112233;
+  font-size: 0.88rem;
+}
+
+  .meal-item-row:last-child {
+    border-bottom: none;
+  }
+
+.item-name {
+  color: #b0bec5;
+  text-transform: capitalize;
+}
+
+.item-cals {
+  color: #00e5ff;
+  font-weight: 600;
+}
+
+.meal-divider {
+  border: none;
+  border-top: 1px solid #112233;
+  margin: 14px 0 0;
+}
+
+/* ══════════════════════════════════════════════
+   BUTTONS — edit / delete / action
+══════════════════════════════════════════════ */
+.action-btn {
+  padding: 9px 18px;
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+  .action-btn:hover:not(:disabled) {
+    background: #005fa3;
+    transform: translateY(-1px);
+  }
+
+  .action-btn:disabled {
+    background: #1e3a5f;
+    color: #4a6a8a;
+    cursor: not-allowed;
+  }
+
+.edit-btn {
+  padding: 7px 14px;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+  .edit-btn:hover {
+    background: #1976d2;
+  }
+
+.delete-btn {
+  padding: 7px 14px;
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+  .delete-btn:hover {
+    background: #e53935;
+  }
+
+.small-icon-btn {
+  padding: 5px 10px;
+  font-size: 0.78rem;
+}
+
+/* ══════════════════════════════════════════════
+   EDIT SECTION
+══════════════════════════════════════════════ */
+.edit-heading {
+  font-size: 1rem;
+  color: #00e5ff;
+  margin: 0 0 14px;
+}
+
+.edit-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+  .edit-row label {
+    color: #80cbc4;
+    font-size: 0.88rem;
+    min-width: 80px;
+  }
+
+  .edit-row select,
+  .edit-row input[type="date"] {
+    flex: 1;
+    min-width: 140px;
+    padding: 9px 12px;
+    background: #112233;
+    border: 1px solid #1e3a5f;
+    border-radius: 7px;
+    color: #e0f7fa;
+    font-size: 0.88rem;
+    outline: none;
+  }
+
+    .edit-row select:focus,
+    .edit-row input[type="date"]:focus {
+      border-color: #00e5ff;
+    }
+
+.items-label {
+  color: #80cbc4;
+  font-size: 0.9rem;
+  margin: 14px 0 8px;
+}
+
+.edit-item-row-block {
+  background: #0d2137;
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.edit-item-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+  .edit-item-name label {
+    color: #80cbc4;
+    font-size: 0.82rem;
+    min-width: 64px;
+  }
+
+  .edit-item-name input,
+  .edit-item-name select {
+    flex: 1;
+    min-width: 140px;
+    padding: 8px 10px;
+    background: #112233;
+    border: 1px solid #1e3a5f;
+    border-radius: 6px;
+    color: #e0f7fa;
+    font-size: 0.88rem;
+    outline: none;
+  }
+
+    .edit-item-name input:focus,
+    .edit-item-name select:focus {
+      border-color: #00e5ff;
+    }
+
+.calories-info-row {
+  font-size: 0.82rem;
+  color: #00bcd4;
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  background: rgba(0, 188, 212, 0.06);
+  border-radius: 5px;
+}
+
+.fetching-hint {
+  color: #607d8b !important;
+}
+
+.edit-item-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #80cbc4;
+  padding-top: 6px;
+}
+
+  .edit-item-summary span {
+    color: #00e5ff;
+  }
+
+.add-item-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px dashed #1e3a5f;
+  border-radius: 8px;
+  color: #00bcd4;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 0 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+  .add-item-btn:hover {
+    border-color: #00e5ff;
+    background: rgba(0, 229, 255, 0.05);
+  }
+
+.edit-footer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cancel-btn {
+  padding: 9px 18px;
+  background: transparent;
+  border: 1px solid #1e3a5f;
+  color: #80cbc4;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+  .cancel-btn:hover {
+    border-color: #ff5252;
+    color: #ff5252;
+  }
+
+/* ══════════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+══════════════════════════════════════════════ */
+body.light-theme .food-search-container {
+  background: #f0f4f8;
+  color: #1a2a3a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+body.light-theme .main-title,
+body.light-theme .section-heading,
+body.light-theme .meals-list-title,
+body.light-theme .meal-section-title {
+  color: #0077cc;
+}
+
+body.light-theme .search-row input,
+body.light-theme .meal-wrapper select,
+body.light-theme .meal-wrapper input[type="date"],
+body.light-theme .edit-item-name input,
+body.light-theme .edit-item-name select,
+body.light-theme .edit-row select,
+body.light-theme .edit-row input[type="date"],
+body.light-theme .field-group input,
+body.light-theme .field-group select {
+  background: #ffffff;
+  border-color: #b0c4d8;
+  color: #1a2a3a;
+}
+
+body.light-theme .meal-section,
+body.light-theme .meal-card,
+body.light-theme .food-card,
+body.light-theme .edit-item-row-block {
+  background: #ffffff;
+  border-color: #d0dce8;
+}
+
+body.light-theme .total-box {
+  background: linear-gradient(135deg, #e3f2fd, #e0f7fa);
+  border-color: #0077cc44;
+}
+
+body.light-theme .total-value {
+  color: #0077cc;
+}
+
+body.light-theme .popup-content {
+  background: #f0f4f8;
+  border-color: #0077cc33;
+}
+
+/* ══════════════════════════════════════════════
+   SCROLLBAR STYLING
+══════════════════════════════════════════════ */
+.popup-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popup-body::-webkit-scrollbar-track {
+  background: #0d1b2a;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 3px;
+}
+
+  .popup-body::-webkit-scrollbar-thumb:hover {
+    background: #00e5ff55;
+  }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 520px) {
+  .food-search-container {
+    padding: 20px 14px 30px;
+    margin: 12px;
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+  }
+
+  .section-heading {
+    font-size: 1.2rem;
+  }
+
+  .total-value {
+    font-size: 1.2rem;
+  }
+
+  .meal-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+    .search-row input,
+    .search-row button,
+    .search-row .action-btn {
+      width: 100%;
+    }
+}

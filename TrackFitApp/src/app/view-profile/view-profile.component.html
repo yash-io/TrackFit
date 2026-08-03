@@ -1,0 +1,471 @@
+<div class="profile-page">
+  <!-- LEFT PROFILE SECTION -→-->
+
+  <div class="profile-left">
+
+    <div class="menu-wrapper" >
+
+      <i class="fa fa-ellipsis-v menu-icon"
+         (click)="toggleMenu($event)"></i>
+
+      <div class="dropdown-menu" *ngIf="showMenu">
+
+        <p (click)="changePassword()">Change Password</p>
+
+        <p (click)="logout()">Logout</p>
+
+      </div>
+      </div>
+
+      <img [src]="profileData?.profileImage || 'assets/default-avatar.png'" class="profile-img">
+
+      <div class="name-section">
+
+        <h2>{{profileData.userName}}</h2>
+
+        <i class="fa fa-pencil edit-icon" (click)="openEditModal()"></i>
+
+      </div>
+
+      <p>{{profileData?.emailId}}</p>
+
+    <button class="edit-btn" (click)="editProfile()"> Edit Profile</button>
+    <div class="achievement-box">
+      <h4> Achievements</h4>
+      <div class="achievement-row">
+        <div *ngIf="!noBadges && latestBadge" class="flip-card">
+          <div class="flip-card-inner">
+
+            <div class="flip-card-front">
+              <img [src]="'assets/badges/' + latestBadge.title + '.jpeg'" />
+            </div>
+            <div class="flip-card-back">
+
+              <p> {{latestBadge .description}}</p>
+
+              <span> {{ latestBadge .achievedDate | date:'dd/MM/yyyy'  }} </span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="noBadges" class="no-data"> No achievements yet. Start your journey 
+      </div>
+           
+           <button *ngIf="!noBadges && latestBadge" class="view-all-btn" (click)="goToAllBadges()">  View All    </button>
+
+         </div>
+
+       </div>
+    </div>
+
+             <div class="profile-right">
+
+               <div class="stats-grid">
+
+                 <div class="stat-card">
+
+                   <h5> Age</h5>
+
+                   <p>
+                     {{profileData.age ? profileData.age : 'Not Updated'}}
+
+                   </p>
+
+                 </div>
+
+                 <div class="stat-card">
+
+                   <h5> Height</h5>
+
+                   <p>
+                     {{profileData.height ? profileData.height + 'cm' : 'Not Updated' }}
+                   </p>
+
+                 </div>
+
+                 <div class="stat-card">
+
+                   <h5> Weight</h5>
+
+                   <p>
+                     {{profileData.weight ? profileData.weight + 'kg' : 'Not Updated'}}
+                   </p>
+
+                 </div>
+
+                 <div class="stat-card">
+
+                   <h5> Goal</h5>
+
+                   <p>
+                     {{profileData.goal ? profileData.goal : 'Please update your goal'}}
+
+                   </p>
+
+                 </div>
+
+               </div>
+
+
+
+               <div class="streak-card">
+
+                 <h4> 🔥 Fitness Streak</h4>
+
+                 <p> Current Streak: {{streakData?.currentStreak || 0}} Days</p>
+
+                 <p> Best Streak: {{streakData?. longestStreak || 0}} Days</p>
+
+               </div>
+               <div class="cal-page" (click)="closePickers()">
+
+                 <!-- ── MONTHLY STATS BAR ─────────────── -->
+          <div class="stats-bar">
+            <div class="stat-chip">
+              <span class="stat-emoji">🏋️</span>
+              <div class="stat-text">
+                <span class="stat-num">{{ monthlyWorkouts }}</span>
+                <span class="stat-lbl">Workout Days</span>
+              </div>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-emoji">💧</span>
+              <div class="stat-text">
+                <span class="stat-num">{{ monthlyWaterDays }}</span>
+                <span class="stat-lbl">Hydrated Days</span>
+              </div>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-emoji">🔥</span>
+              <div class="stat-text">
+                <span class="stat-num">{{ monthlyCalories }}</span>
+                <span class="stat-lbl">Total Calories</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── MAIN LAYOUT ───────────────────── -->
+          <div class="main-layout"
+               [ngClass]="showPanel ? 'with-panel' : ''">
+
+            <!-- ── CALENDAR ───────────────────── -->
+            <div class="calendar-wrap">
+
+              <!-- Month Nav -->
+              <div class="month-nav">
+
+                <button class="nav-btn"
+                        (click)="prevMonth();
+                         $event.stopPropagation()">
+                  &#8249;
+                </button>
+
+                <!-- Month + Year Clickable Labels -->
+                <div class="month-year-area">
+
+                  <!-- Month Label + Picker -->
+                  <div class="picker-wrap">
+                    <button class="month-year-btn"
+                            (click)="toggleMonthPicker();
+                             $event.stopPropagation()">
+                      {{ getMonthName() }}
+                      <span class="arrow-icon">▾</span>
+                    </button>
+
+                    <!-- Month Popup -->
+                    <div class="picker-popup month-popup"
+                         *ngIf="showMonthPicker"
+                         (click)="$event.stopPropagation()">
+                      <div class="month-grid">
+                        <button *ngFor="let m of monthNames;
+                                let i = index"
+                                class="month-item"
+                                [ngClass]="(i+1) === currentMonth ?
+                                   'picker-active' : ''"
+                                (click)="selectMonth(i+1)">
+                          {{ m.slice(0,3) }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Year Label + Picker -->
+                  <div class="picker-wrap">
+                    <button class="month-year-btn"
+                            (click)="toggleYearPicker();
+                             $event.stopPropagation()">
+                      {{ currentYear }}
+                      <span class="arrow-icon">▾</span>
+                    </button>
+
+                    <!-- Year Popup -->
+                    <div class="picker-popup year-popup"
+                         *ngIf="showYearPicker"
+                         (click)="$event.stopPropagation()">
+                      <div class="year-list">
+                        <button *ngFor="let y of yearList"
+                                class="year-item"
+                                [ngClass]="y === currentYear ?
+                                   'picker-active' : ''"
+                                (click)="selectYear(y)">
+                          {{ y }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <button class="nav-btn"
+                        (click)="nextMonth();
+                         $event.stopPropagation()">
+                  &#8250;
+                </button>
+
+              </div>
+
+              <!-- Week Headers -->
+              <div class="week-header">
+                <span *ngFor="let d of weekDays"
+                      class="week-day">
+                  {{ d }}
+                </span>
+              </div>
+
+              <!-- Grid -->
+              <div class="cal-grid"
+                   [ngClass]="isAnimating ? 'slide-in' : ''">
+
+                <div *ngFor="let cell of calendarCells"
+                     class="cal-cell"
+                     [ngClass]="[
+               getCellClass(cell),
+               isSelected(cell) ? 'selected-cell' : ''
+             ]"
+                     (click)="selectDay(cell)">
+
+                  <!-- Day Number -->
+                  <div class="day-num" *ngIf="cell.day">
+                    <span class="day-circle"
+                          [ngClass]="cell.isToday ?
+                             'today-circle' : ''">
+                      {{ cell.day }}
+                    </span>
+                  </div>
+
+                  <!-- Activity Icons -->
+                  <div class="cell-icons"
+                       *ngIf="cell.day && cell.data">
+                    <span *ngIf="cell.data.hasWorkout"
+                          class="ci" title="Workout">
+                      🏋️
+                    </span>
+                    <span *ngIf="cell.data.hasWaterIntake"
+                          class="ci" title="Water">
+                      💧
+                    </span>
+                    <span *ngIf="cell.data.hasGoalDeadline"
+                          class="ci" title="Goal Deadline">
+                      🎯
+                    </span>
+                    <span *ngIf="cell.data.hasStreak"
+                          class="ci" title="Streak">
+                      🔥
+                    </span>
+                    <span *ngIf="cell.data.hasSleep"
+                          class="ci" title="Sleep">
+                      😴
+                    </span>
+                  </div>
+
+                  <!-- Calorie badge -->
+                  <div class="cal-badge"
+                       *ngIf="cell.data &&  cell.data.totalCalories> 0">
+                    {{ cell.data.totalCalories }}🔥
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Legend -->
+              <div class="legend">
+                <span class="leg-item">
+                  <span class="leg-dot ld-very"></span>
+                  Very Active
+                </span>
+                <span class="leg-item">
+                  <span class="leg-dot ld-active"></span>
+                  Active
+                </span>
+                <span class="leg-item">
+                  <span class="leg-dot ld-light"></span>
+                  Light
+                </span>
+                <span class="leg-item">
+                  <span class="leg-dot ld-today"></span>
+                  Today
+                </span>
+              </div>
+
+            </div>
+
+            <!-- ── SIDE PANEL ─────────────────── -->
+            <div class="side-panel"
+                 *ngIf="showPanel && selectedCell">
+
+              <div class="panel-header">
+                <div class="panel-date">
+                  {{ formatSelectedDate() }}
+                </div>
+                <button class="close-btn"
+                        (click)="closePanel()">
+                  ✕
+                </button>
+              </div>
+
+              <!-- No Activity -->
+              <div class="no-data"
+                   *ngIf="!selectedCell.data">
+                <div class="no-data-icon">😴</div>
+                <p>No activity recorded</p>
+                <small>
+                  Start logging workouts
+                  and water!
+                </small>
+              </div>
+
+              <!-- Activity Data -->
+              <div class="panel-body"
+                   *ngIf="selectedCell.data">
+
+                <div class="panel-card workout-card">
+                  <div class="pc-left">
+                    <span class="pc-icon">🏋️</span>
+                    <div class="pc-info">
+                      <span class="pc-title">Workouts</span>
+                      <span class="pc-value">
+                        {{ selectedCell.data.workoutCount }}
+                        session(s)
+                      </span>
+                    </div>
+                  </div>
+                  <div class="pc-right">
+                    🔥 {{ selectedCell.data.totalCalories }} cal
+                  </div>
+                </div>
+
+                <div class="exercise-tags"
+                     *ngIf="selectedCell.data.exercises.length> 0">
+                  <span class="ex-tag"
+                        *ngFor="let ex of
+                        selectedCell.data.exercises">
+                    {{ ex }}
+                  </span>
+                </div>
+
+                <div class="panel-card water-card">
+                  <div class="pc-left">
+                    <span class="pc-icon">💧</span>
+                    <div class="pc-info">
+                      <span class="pc-title">Water Intake</span>
+                      <span class="pc-value">
+                        {{ selectedCell.data.totalWaterMl }} mL
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-card sleep-card"
+                     *ngIf="selectedCell.data.hasSleep">
+                  <div class="pc-left">
+                    <span class="pc-icon">😴</span>
+                    <div class="pc-info">
+                      <span class="pc-title">Sleep</span>
+                      <span class="pc-value">
+                        {{ selectedCell.data.sleepHours }} hrs
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-card streak-card"
+                     *ngIf="selectedCell.data.hasStreak">
+                  <div class="pc-left">
+                    <span class="pc-icon">🔥</span>
+                    <div class="pc-info">
+                      <span class="pc-title">Streak</span>
+                      <span class="pc-value">
+                        {{ selectedCell.data.currentStreak }}
+                        days active!
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-card goal-card"
+                     *ngIf="selectedCell.data.hasGoalDeadline">
+                  <div class="pc-left">
+                    <span class="pc-icon">🎯</span>
+                    <div class="pc-info">
+                      <span class="pc-title">Goal Deadline</span>
+                      <div class="goal-tags">
+                        <span class="goal-tag"
+                              *ngFor="let g of
+                      selectedCell.data.goalTypes">
+                          {{ g }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+        </div>
+
+
+        <div class="modal-overlay" *ngIf="showEditModal">
+
+          <div class="edit-modal">
+
+            <h3>Edit Username</h3>
+
+            <label>Username</label>
+
+            <input type="text"
+                   [(ngModel)]="editedUserName">
+
+            <label>Email</label>
+
+            <input type="email"
+                   [value]="profileData?.emailId"
+                   disabled>
+
+            <div class="modal-buttons">
+
+              <button (click)="saveUserName()">
+
+                Save
+
+              </button>
+
+              <button (click)="closeModal()">
+
+                Cancel
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+

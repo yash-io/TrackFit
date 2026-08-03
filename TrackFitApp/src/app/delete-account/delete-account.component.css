@@ -1,0 +1,113 @@
+body {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+.container {
+  width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background: #1f2937;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  color: #f1f5f9;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+
+h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #ef4444;
+}
+
+
+.warning-text {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #f87171;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+  button:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+  }
+
+.response {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #022c22;
+  color: #4ade80;
+  font-size: 14px;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.popup-box {
+  background: #1f2937;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  width: 300px;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.yes-btn {
+  background: #ef4444;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #6b7280;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}

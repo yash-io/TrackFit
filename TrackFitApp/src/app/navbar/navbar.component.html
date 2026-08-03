@@ -1,0 +1,71 @@
+<div class="navbar">
+  <div class="logo" (click)="handleLogoClick()">TrackFit <i class="fa fa-heartbeat"></i> </div>
+
+
+  <div *ngIf="auth.isLoggedIn()" class="nav-actions">
+    <button *ngIf="!isAdmin" class="theme-btn" (click)="toggleTheme()">
+      <i [ngClass]="isLight ? 'fa fa-sun': 'fa fa-moon' ">
+      </i>
+
+    </button>
+
+
+    <div *ngIf="!isAdmin" class="notification-wrapper" (click)="goToNotifications()">
+  <i class="fa fa-bell notification-icon"></i>
+  <span class="tooltip-text">Notifications</span>
+</div>
+
+
+    <div class="leaderboard-wrapper" (click)="goToLeaderboard()">
+      <i class="fa fa-trophy leaderboard-icon"></i>
+      <span class="tooltip-text">Leaderboard</span>
+    </div>
+
+    <button *ngIf="!isAdmin" class="menu-btn" (click)="toggleMenu()">  ☰  </button>
+
+
+  </div>
+</div>
+
+    <div *ngIf="auth.isLoggedIn() && !isAdmin" class="overlay" [class.show]="isMenuOpen" (click)="closeMenu()"></div>
+    <!--<!--<!--<!-- Sidebar -->
+    <div *ngIf="!isAdmin" class="sidebar" [class.open]="isMenuOpen">
+      <button class="close-btn" (click)="closeMenu()">✖</button>
+      <ul *ngIf="auth.isLoggedIn() && !isAdmin">
+        <li>
+          <div *ngIf="!isAdmin" class="nav-right">
+            <img [src]="profilePhoto || 'assets/default-avatar.png'" class="nav-avatar" />
+            <a routerLink="/view-profile" class="view-profile-link" (click)="closeMenu()">View profile</a>
+          </div>
+        <li><a routerLink="/home" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/healthDashboard" (click)="closeMenu()">Dashboard</a></li>
+        <li><a routerLink="/streak" (click)="closeMenu()">Streak</a></li>
+        <li><a routerLink="/feedback" (click)="closeMenu()">Feedback</a></li>
+        <li><a routerLink="/log-meal" (click)="closeMenu()">LogMeal</a></li>
+        <li><a routerLink="/goal" (click)="closeMenu()">Goal</a></li>
+        <li><a routerLink="/water" routerLinkActive="active">Water</a> </li>
+        <li><a routerLink="/reminder">Reminder</a>
+        <li>
+          <a routerLink="/sleep" (click)="closeMenu()">
+             Sleep
+          </a>
+        </li>
+        <li><a routerLink="/learn" routerLinkActive="active">Learn</a>
+        <li><a routerLink="/help" (click)="closeMenu()"><span>Help</span></a></li>
+
+        <li>
+          <button class="logout-btn" (click)="logout()">
+            <i class="fa fa-sign-out"></i> Logout
+          </button>
+        </li>
+
+      </ul>
+
+      <ul *ngIf="!auth.isLoggedIn()">
+        <li class="menu-title">Welcome</li>
+        <li><a routerLink="/home" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/login" (click)="closeMenu()">Login</a></li>
+        <li><a routerLink="/register" (click)="closeMenu()">Register</a></li>
+      </ul>
+
+    </div>

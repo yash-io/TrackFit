@@ -1,0 +1,15 @@
+.theme-button{
+    background-color: var(--bg-main) !important; 
+}
+
+.app-comp {
+    margin : 0 !important;
+    padding : 0 !important;
+    width : 100% !important;
+}
+
+app-comp {
+    display : block;
+    width: 100%;
+    border: 3px solid red;
+}

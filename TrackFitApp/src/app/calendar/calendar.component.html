@@ -1,0 +1,310 @@
+<div class="cal-page" (click)="closePickers()">
+
+ 
+  <div class="stats-bar">
+    <div class="stat-chip">
+      <span class="stat-emoji">🏋️</span>
+      <div class="stat-text">
+        <span class="stat-num">{{ monthlyWorkouts }}</span>
+        <span class="stat-lbl">Workout Days</span>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-emoji">💧</span>
+      <div class="stat-text">
+        <span class="stat-num">{{ monthlyWaterDays }}</span>
+        <span class="stat-lbl">Hydrated Days</span>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-emoji">🔥</span>
+      <div class="stat-text">
+        <span class="stat-num">{{ monthlyCalories }}</span>
+        <span class="stat-lbl">Total Calories</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="main-layout"
+       [ngClass]="showPanel ? 'with-panel' : ''">
+
+    
+    <div class="calendar-wrap">
+
+    
+      <div class="month-nav">
+
+        <button class="nav-btn"
+                (click)="prevMonth();
+                         $event.stopPropagation()">
+          &#8249;
+        </button>
+
+      
+        <div class="month-year-area">
+
+         
+          <div class="picker-wrap">
+            <button class="month-year-btn"
+                    (click)="toggleMonthPicker();
+                             $event.stopPropagation()">
+              {{ getMonthName() }}
+              <span class="arrow-icon">▾</span>
+            </button>
+
+            
+            <div class="picker-popup month-popup"
+                 *ngIf="showMonthPicker"
+                 (click)="$event.stopPropagation()">
+              <div class="month-grid">
+                <button *ngFor="let m of monthNames;
+                                let i = index"
+                        class="month-item"
+                        [ngClass]="(i+1) === currentMonth ?
+                                   'picker-active' : ''"
+                        (click)="selectMonth(i+1)">
+                  {{ m.slice(0,3) }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        
+          <div class="picker-wrap">
+            <button class="month-year-btn"
+                    (click)="toggleYearPicker();
+                             $event.stopPropagation()">
+              {{ currentYear }}
+              <span class="arrow-icon">▾</span>
+            </button>
+
+          
+            <div class="picker-popup year-popup"
+                 *ngIf="showYearPicker"
+                 (click)="$event.stopPropagation()">
+              <div class="year-list">
+                <button *ngFor="let y of yearList"
+                        class="year-item"
+                        [ngClass]="y === currentYear ?
+                                   'picker-active' : ''"
+                        (click)="selectYear(y)">
+                  {{ y }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="nav-btn"
+                (click)="nextMonth();
+                         $event.stopPropagation()">
+          &#8250;
+        </button>
+
+      </div>
+
+    
+      <div class="week-header">
+        <span *ngFor="let d of weekDays"
+              class="week-day">
+          {{ d }}
+        </span>
+      </div>
+
+     
+      <div class="cal-grid"
+           [ngClass]="isAnimating ? 'slide-in' : ''">
+
+        <div *ngFor="let cell of calendarCells"
+             class="cal-cell"
+             [ngClass]="[
+               getCellClass(cell),
+               isSelected(cell) ? 'selected-cell' : ''
+             ]"
+             (click)="selectDay(cell)">
+
+          <div class="day-num" *ngIf="cell.day">
+            <span class="day-circle"
+                  [ngClass]="cell.isToday ?
+                             'today-circle' : ''">
+              {{ cell.day }}
+            </span>
+          </div>
+
+        
+          <div class="cell-icons"
+               *ngIf="cell.day && cell.data">
+            <span *ngIf="cell.data.hasWorkout"
+                  class="ci" title="Workout">
+              🏋️
+            </span>
+            <span *ngIf="cell.data.hasWaterIntake"
+                  class="ci" title="Water">
+              💧
+            </span>
+            <span *ngIf="cell.data.hasGoalDeadline"
+                  class="ci" title="Goal Deadline">
+              🎯
+            </span>
+            <span *ngIf="cell.data.hasStreak"
+                  class="ci" title="Streak">
+              🔥
+            </span>
+            <span *ngIf="cell.data.hasSleep"
+                  class="ci" title="Sleep">
+              😴
+            </span>
+          </div>
+
+          
+          <div class="cal-badge"
+               *ngIf="cell.data &&
+               cell.data.totalCalories>
+            0">
+            {{ cell.data.totalCalories }}🔥
+          </div>
+
+        </div>
+      </div>
+
+      
+      <div class="legend">
+        <span class="leg-item">
+          <span class="leg-dot ld-very"></span>
+          Very Active
+        </span>
+        <span class="leg-item">
+          <span class="leg-dot ld-active"></span>
+          Active
+        </span>
+        <span class="leg-item">
+          <span class="leg-dot ld-light"></span>
+          Light
+        </span>
+        <span class="leg-item">
+          <span class="leg-dot ld-today"></span>
+          Today
+        </span>
+      </div>
+
+    </div>
+
+   
+    <div class="side-panel"
+         *ngIf="showPanel && selectedCell">
+
+      <div class="panel-header">
+        <div class="panel-date">
+          {{ formatSelectedDate() }}
+        </div>
+        <button class="close-btn"
+                (click)="closePanel()">
+          ✕
+        </button>
+      </div>
+
+     
+      <div class="no-data"
+           *ngIf="!selectedCell.data">
+        <div class="no-data-icon">😴</div>
+        <p>No activity recorded</p>
+        <small>
+          Start logging workouts
+          and water!
+        </small>
+      </div>
+
+    
+      <div class="panel-body"
+           *ngIf="selectedCell.data">
+
+        <div class="panel-card workout-card">
+          <div class="pc-left">
+            <span class="pc-icon">🏋️</span>
+            <div class="pc-info">
+              <span class="pc-title">Workouts</span>
+              <span class="pc-value">
+                {{ selectedCell.data.workoutCount }}
+                session(s)
+              </span>
+            </div>
+          </div>
+          <div class="pc-right">
+            🔥 {{ selectedCell.data.totalCalories }} cal
+          </div>
+        </div>
+
+        <div class="exercise-tags"
+             *ngIf="selectedCell.data
+             .exercises.length>
+          0">
+          <span class="ex-tag"
+                *ngFor="let ex of
+                        selectedCell.data.exercises">
+            {{ ex }}
+          </span>
+        </div>
+
+        <div class="panel-card water-card">
+          <div class="pc-left">
+            <span class="pc-icon">💧</span>
+            <div class="pc-info">
+              <span class="pc-title">Water Intake</span>
+              <span class="pc-value">
+                {{ selectedCell.data.totalWaterMl }} mL
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card sleep-card"
+             *ngIf="selectedCell.data.hasSleep">
+          <div class="pc-left">
+            <span class="pc-icon">😴</span>
+            <div class="pc-info">
+              <span class="pc-title">Sleep</span>
+              <span class="pc-value">
+                {{ selectedCell.data.sleepHours }} hrs
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card streak-card"
+             *ngIf="selectedCell.data.hasStreak">
+          <div class="pc-left">
+            <span class="pc-icon">🔥</span>
+            <div class="pc-info">
+              <span class="pc-title">Streak</span>
+              <span class="pc-value">
+                {{ selectedCell.data.currentStreak }}
+                days active!
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card goal-card"
+             *ngIf="selectedCell.data.hasGoalDeadline">
+          <div class="pc-left">
+            <span class="pc-icon">🎯</span>
+            <div class="pc-info">
+              <span class="pc-title">Goal Deadline</span>
+              <div class="goal-tags">
+                <span class="goal-tag"
+                      *ngFor="let g of
+                      selectedCell.data.goalTypes">
+                  {{ g }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

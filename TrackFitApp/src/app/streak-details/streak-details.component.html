@@ -1,0 +1,94 @@
+<div class="root-div">
+
+  <div class="share-actions no-print">
+    <button class="action-btn primary" (click)="openPrintNewTab()">Download as PDF</button>
+    <button class="action-btn secondary" (click)="shareViaEmail()">Share via Email</button>
+  </div>
+
+  <div #shareArea class="share-area">
+    <div class="streak-container">
+      <div class="streak-card">
+        <div class="streak-header">
+          <h2>Streak</h2>
+          <p>Consistency tracker</p>
+        </div>
+
+        <div class="ring-wrapper">
+          <svg class="progress-ring" width="160" height="160">
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff8c00" />
+                <stop offset="100%" stop-color="#ff4500" />
+              </linearGradient>
+            </defs>
+
+            <circle class="ring-bg"
+                    cx="80"
+                    cy="80"
+                    r="70" />
+
+            <circle class="ring-progress"
+                    cx="80"
+                    cy="80"
+                    r="70"
+                    [attr.stroke-dasharray]="circumference"
+                    [attr.stroke-dashoffset]="dashOffset" />
+          </svg>
+
+          <div class="ring-center">
+            <div class="fire" [ngClass]="'level-' + fireLevel">
+              <h1>🔥</h1>
+            </div>
+            <h2>{{ streakData?.currentStreak }}</h2>
+            <span>days</span>
+          </div>
+        </div>
+
+        <div class="streak-stats">
+          <div class="stat-box">
+            <h4>{{ streakData?.longestStreak }}</h4>
+            <span>Max Streak</span>
+          </div>
+
+          <div class="stat-box">
+            <h4>{{ streakData?.totalNumberOfDaysActive }}</h4>
+            <span>Total Days Active</span>
+          </div>
+
+          <div class="stat-box">
+            <h4>{{ streakData?.lastActiveDate | date:'MMM dd yyyy' }}</h4>
+            <span>Last Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badges-container">
+      <h3 class="badge-heading">Achievements and Badges</h3>
+      <div class="badge-grid">
+        <div *ngFor="let badge of badgesData" class="badge-cards">
+          <div class="streak-card">
+            <div class="badge-inner">
+              <div class="badge-front">
+                <img [src]="'assets/badges/' + badge.title + '.jpeg'" alt="badge image" />
+              </div>
+              <div class="badge-back">
+                <p>{{ badge.description }}</p>
+                <p>{{ badge.achievedDate | date:'dd/MM/yyyy' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="streak-container">
+      <div class="streak-card">
+        <h5 class="tip-header">{{ tip }}</h5>
+        <br />
+        ◕‿◕ You can do it
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,126 @@
+/* container */
+
+.leaderboard-container {
+  padding: 20px;
+  color: var(--text-color);
+}
+
+/* title */
+
+.title {
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+/* TOP 3 */
+
+.top3-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+/* CARD */
+
+.top-card {
+  width: 190px;
+  padding: 22px;
+  border-radius: 18px;
+  text-align: center;
+  background: var(--card-bg); /* ✅ USE YOUR THEME */
+  background-image: var(--bg-gradient);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color); /* ✅ THEME BORDER */
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+  .top-card:hover {
+    transform: translateY(-5px);
+  }
+
+/* RANK COLORS (keep highlight only) */
+
+.rank-1 {
+  border: 1px solid gold;
+}
+
+.rank-2 {
+  border: 1px solid silver;
+}
+
+.rank-3 {
+  border: 1px solid #cd7f32;
+}
+
+/* avatar */
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: var(--primary); /* ✅ dynamic theme */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 10px auto;
+  color: white;
+}
+
+/* name */
+
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color); /* ✅ */
+}
+
+/* spacing fix */
+
+.stats {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* points */
+
+.points {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary); /* ✅ THEME COLOR */
+}
+
+/* streak */
+
+.streak {
+  font-size: 13px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* LIST */
+
+.list-container {
+  background: var(--card-bg);
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 50px 1fr 100px 100px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  color: var(--text-color);
+}
+
+  .list-item:last-child {
+    border-bottom: none;
+  }

@@ -1,0 +1,6 @@
+@TrackFitWebServices_HostAddress = http://localhost:5276
+
+GET {{TrackFitWebServices_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,118 @@
+body {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+.container {
+  width: 380px;
+  margin: 80px auto;
+  padding: 25px;
+  border-radius: 16px;
+  background: #1f2937;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  color: #f1f5f9;
+  transition: transform 0.3s ease;
+}
+
+  .container:hover {
+    transform: translateY(-5px);
+  }
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 6px #38bdf8;
+  }
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+  button:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  }
+
+.response {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #022c22;
+  color: #4ade80;
+  text-align: center;
+  font-size: 14px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+  .button-group button {
+    flex: 1;
+  }
+
+.reset-btn {
+  background: #0f172a; /* matches page background tone */
+  color: #cbd5f5; /* soft readable text */
+  border: 1px solid #334155; /* subtle border like inputs */
+  border-radius: 8px;
+  padding: 12px; /* same height as main button */
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+  /* Hover effect */
+  .reset-btn:hover {
+    background: #1e293b; /* slightly brighter */
+    color: #ffffff;
+    transform: scale(1.03);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3); /* subtle blue glow */
+  }
+
+.reset-btn {
+  background: #1e293b;
+  color: #cbd5f5;
+}

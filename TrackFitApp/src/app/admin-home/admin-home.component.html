@@ -1,0 +1,32 @@
+<div class="admin-container">
+  <div class="header">
+    <h2>Admin Dashboard</h2>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+  <div class="card-container">
+    <div class="card" (click)="goToUsers()">
+      <h3><i class="fa fa-users"></i> Users</h3>
+      <p>View all registered users</p>
+    </div>
+    <div class="card" (click)="goToActiveUsers()">
+      <h3>🔥 Active Users</h3>
+      <p>See today's active users</p>
+    </div>
+    <div class="card" (click)="goToFeedback()">
+      <h3><i class="fa fa-comments"></i> Feedback</h3>
+      <p>Check user feedback</p>
+    </div>
+    <div class="card" (click)="goToActivity()">
+      <h3><i class="fa-solid fa-chart-column"></i> Weekly Activity</h3>
+      <p>View activity chart</p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+

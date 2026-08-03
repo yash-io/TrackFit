@@ -1,0 +1,17 @@
+<div class="faq-page">
+
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+
+    <div class="question" (click)="toggleFAQ(i)">
+      {{ faq.question }}
+    </div>
+
+    <div class="answer" *ngIf="faq.isOpen">
+      {{ faq.answer }}
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,117 @@
+
+<div class="page-shell">
+  <div class="feedback-card">
+
+    <div class="card-header">
+      <div>
+        <div class="eyebrow">Feedback Center</div>
+        <h2>{{ isEditMode ? 'Update Feedback' : 'Submit Feedback' }}</h2>
+        <p>Share your thoughts and rate your experience.</p>
+      </div>
+
+      <div class="status-badge" [class.edit-mode]="isEditMode">
+        {{ isEditMode ? ' Editing' : ' New' }}
+      </div>
+    </div>
+
+    <form #formData="ngForm" (ngSubmit)="onPrimaryAction(formData)" novalidate>
+
+      <!-- Feedback -->
+      <div class="field-group">
+        <label>Feedback</label>
+
+        <textarea class="form-control feedback-textarea"
+                  name="feedback"
+                  [(ngModel)]="feedbackText"
+                  required
+                  #feedbackCtrl="ngModel">
+        </textarea>
+
+        <div class="error-text"
+             *ngIf="feedbackCtrl.invalid && feedbackCtrl.touched">
+          Feedback is required
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="field-group">
+        <label>Rating</label>
+
+        <div class="star-row">
+          <button type="button"
+                  class="star-btn"
+                  *ngFor="let star of stars; let i = index"
+                  [class.filled]="i < (hoverRating || rating || 0)"
+                  (mouseenter)="hoverRating = i + 1"
+                  (mouseleave)="hoverRating = 0"
+                  (click)="setRating(i + 1)">
+            ★
+          </button>
+        </div>
+
+        <div class="rating-hint">
+          {{ rating ? rating + ' / 5' : 'Select rating' }}
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="actions">
+        <button class="primary-btn"
+                type="submit"
+                [disabled]="formData.invalid || isLoading">
+
+          <span *ngIf="!isLoading">
+            {{ isEditMode ? 'Update' : 'Submit' }}
+          </span>
+
+          <span *ngIf="isLoading" class="spinner"></span>
+        </button>
+
+        <button class="secondary-btn"
+                type="button"
+                (click)="resetForm(formData)">
+          Clear
+        </button>
+      </div>
+
+      <!-- Messages -->
+      <div class="overlay" *ngIf="showSuccessCard">
+
+        <div class="success-modal">
+
+          <div class="success-icon">✅</div>
+
+          <h2>Feedback Submitted!</h2>
+          <p *ngIf="statusType === 'success'">Your feedback has been saved successfully.</p>
+          <p *ngIf="statusType === 'update'">Your feedback has been updated successfully.</p>
+    
+          <div class="success-actions">
+
+            <button class="primary-btn" (click)="editAgain()">
+              <p  *ngIf="statusType === 'success'">
+                update
+              </p>
+              <p *ngIf="statusType === 'update'">
+                update again
+              </p>
+            </button>
+
+            <button class="secondary-btn" routerLink="/home">
+              Go Home
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="error-card" *ngIf="statusType === 'error'">
+        {{ statusMessage }}
+      </div>
+
+    </form>
+  </div>
+</div>
+
+

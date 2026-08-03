@@ -1,0 +1,73 @@
+<div *ngIf="!isLoggedIn" class="guest-home">
+
+  <div class="guest-overlay">
+
+    <h1>Transform Your Body, Transform Your Life 💪</h1>
+
+    <p>
+
+      “Take care of your body. It's the only place you have to live.”
+
+    </p>
+
+    <div class="guest-buttons">
+
+      <button routerLink="/login">Login</button>
+
+      <button routerLink="/register">Register</button>
+
+    </div>
+
+    <div class="support-link">
+      <p>Having trouble logging in?</p>
+      <button routerLink="/contact-support" class="support-btn">
+        Contact Support
+      </button>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div *ngIf="isLoggedIn">
+  <div class="home-container">
+    <!--Slider Section -→-->
+    <div class="hero-slider">
+      <div class="slide active">
+        <img src="assets/gym1.png" alt="fitness">
+        <div class="slide-content">
+          <h1>Transform Your Body 💪</h1>
+          <p>Track workouts and stay healthy</p>
+          <button routerLink="/goal">Start Now</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="assets/healthyfood.png" alt="food">
+        <div class="slide-content">
+          <h1>Eat Healthy 🥗</h1>
+          <p>Track calories and meals easily</p>
+          <button routerLink="/log-meal">Track Meals</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="assets/sleep.png" alt="sleep">
+        <div class="slide-content">
+          <h1>Sleep Better 😴</h1>
+          <p>Monitor sleep for better recovery</p>
+          <button routerLink="/healthDashboard">View Progress</button>
+        </div>
+      </div>
+    </div>
+    <!-- Dots -→-->
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  </div>

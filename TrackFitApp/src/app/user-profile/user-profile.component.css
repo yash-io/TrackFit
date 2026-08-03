@@ -1,0 +1,59 @@
+.avatar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.avatar-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  scroll-behavior: smooth;
+  padding: 10px 30px;
+}
+
+  /* Hide scrollbar */
+  .avatar-list::-webkit-scrollbar {
+    display: none;
+  }
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 3px solid transparent;
+}
+
+  .avatar:hover {
+    transform: scale(1.1);
+  }
+
+  /* Selected avatar */
+  .avatar.selected {
+    border: 3px solid var(--primary);
+  }
+
+/* Arrow buttons */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--card-bg);
+  border: none;
+  font-size: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 2;
+  color: var(--text-color);
+  border-radius: 50%;
+}
+
+  .scroll-btn.left {
+    left: 0;
+  }
+
+  .scroll-btn.right {
+    right: 0;
+  }

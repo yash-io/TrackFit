@@ -1,0 +1,28 @@
+.learn-page {
+  padding: 20px;
+  background: #111827;
+  min-height: 100vh;
+  color: white;
+}
+
+.card {
+  background: linear-gradient(135deg, #1f2937, #374151);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+  .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+
+  .card h3 {
+    margin: 0;
+  }
+
+  .card p {
+    color: #ccc;
+  }

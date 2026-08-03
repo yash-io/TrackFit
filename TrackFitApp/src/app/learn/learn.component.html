@@ -1,0 +1,11 @@
+<div class="learn-page">
+
+  <h2>Learn</h2>
+  <div class="card" *ngFor="let topic of topics"
+
+       [routerLink] ="['/learn', topic.id]">
+    <h3>{{ topic.title }}</h3>
+    <p>{{ topic.desc }}</p>
+  </div>
+
+</div>

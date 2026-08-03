@@ -1,0 +1,48 @@
+
+
+<div class="analytics-wrapper">
+  <div class="analytics-card">
+
+    <header class="analytics-header">
+      <div class="header-titles">
+        <h2>Performance Analytics</h2>
+        <p>Your aggregated daily progress reports</p>
+      </div>
+      <div class="summary-metric">
+        <span>{{ currentSummaryStat }}</span>
+      </div>
+    </header>
+
+    <div class="category-tabs">
+      <button class="tab-btn" [class.active]="activeCategory === 'workouts'" (click)="setCategory('workouts')">
+         Workouts <span class="icon"> kcal</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeCategory === 'water'" (click)="setCategory('water')">
+         Hydration <span class="icon"> ml</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeCategory === 'bmi'" (click)="setCategory('bmi')">
+        Body Metrics  <span class="icon">kg/m*m</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeCategory === 'sleep'" (click)="setCategory('sleep')">
+        Sleep  <span class="icon">hrs</span>
+      </button>
+    </div>
+
+    <div class="chart-controls">
+      <div class="timeframe-segmented">
+        <button [class.active]="activeTimeframe === 'weekly'" (click)="setTimeframe('weekly')">7 Days</button>
+        <button [class.active]="activeTimeframe === 'monthly'" (click)="setTimeframe('monthly')">30 Days</button>
+      </div>
+
+      <button class="compare-toggle" [class.active]="isComparing" (click)="toggleComparison()">
+        <span class="status-dot"></span> Compare Previous
+      </button>
+    </div>
+
+    <div class="canvas-container">
+      <canvas #chartCanvas></canvas>
+    </div>
+
+  </div>
+</div>
+

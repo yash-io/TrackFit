@@ -1,0 +1,55 @@
+<div class="chat-fab" (click)="toggleChat()" title="TrackFit Assistant">
+  <i class="fa" [ngClass]="isOpen ? 'fa-times' : 'fa-comments'"></i>
+</div>
+
+<div class="chat-window" [class.open]="isOpen">
+
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar"><i class="fa fa-heartbeat"></i></div>
+      <div>
+        <div class="chat-title">TrackFit Assistant</div>
+        <div class="chat-subtitle">Fitness AI · Azure OpenAI</div>
+      </div>
+    </div>
+    <button class="chat-close-btn" (click)="toggleChat()">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+
+  <div class="chat-messages" #msgBox>
+    <div *ngFor="let msg of messages"
+         class="msg-row"
+         [ngClass]="msg.sender === 'user' ? 'msg-row-user' : 'msg-row-bot'">
+
+      <div *ngIf="msg.sender === 'bot'" class="bot-avatar">
+        <i class="fa fa-heartbeat"></i>
+      </div>
+
+      <div class="msg-bubble"
+           [ngClass]="msg.sender === 'user' ? 'bubble-user' : 'bubble-bot'">
+        <span *ngIf="msg.text !== '...'; else typingTpl">{{ msg.text }}</span>
+        <ng-template #typingTpl>
+          <span class="typing">
+            <span></span><span></span><span></span>
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea [(ngModel)]="userInput"
+              (keydown)="onKeyDown($event)"
+              placeholder="Ask about workouts, nutrition, goals..."
+              [disabled]="isLoading"
+              rows="1">
+    </textarea>
+    <button class="chat-send-btn"
+            (click)="sendMessage()"
+            [disabled]="isLoading || !userInput.trim()">
+      <i class="fa" [ngClass]="isLoading ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+    </button>
+  </div>
+
+</div>

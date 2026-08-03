@@ -1,0 +1,151 @@
+<div class="reminder-page">
+
+  <div class="toast" *ngIf="toastVisible">
+    <span class="toast-icon">{{ toastIcon }}</span>
+    <span class="toast-msg">{{ toastMessage }}</span>
+    <button class="toast-close" (click)="dismissToast()">✕</button>
+  </div>
+
+  <div class="page-header">
+    <div class="header-left">
+      <h2>🔔 My Reminders</h2>
+      <span class="badge" *ngIf="getPendingCount() > 0">
+        {{ getPendingCount() }} pending
+      </span>
+    </div>
+    <button class="btn-primary" (click)="showAddForm()">
+      + Add Reminder
+    </button>
+  </div>
+
+  <div *ngIf="message"
+       [ngClass]="isSuccess ? 'msg-success' : 'msg-error'">
+    {{ message }}
+  </div>
+
+  <div class="next-reminder-banner"
+       *ngIf="getNextReminder() as next">
+    <span class="next-icon">⏰</span>
+    <div class="next-info">
+      <span class="next-label">Next Reminder</span>
+      <span class="next-title">
+        {{ next.title }} —
+        {{ next.reminderTime | date:'shortTime' }}
+      </span>
+    </div>
+    <span class="next-type-icon">
+      {{ getTypeIcon(next.reminderType) }}
+    </span>
+  </div>
+
+  <div class="form-card" *ngIf="isFormVisible">
+    <h3>{{ isEditMode ? '✏️ Edit Reminder' : '➕ New Reminder' }}</h3>
+
+    <div class="form-group">
+      <label>Reminder Type</label>
+      <div class="type-selector">
+        <button *ngFor="let type of reminderTypes"
+                [ngClass]="currentReminder.reminderType === type.value ?
+                           'type-btn-active' : 'type-btn'"
+                (click)="currentReminder.reminderType = type.value;
+                         onTypeChange(type.value)">
+          {{ type.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text"
+             [(ngModel)]="currentReminder.title"
+             placeholder="e.g. Drink Water" />
+    </div>
+
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <input type="text"
+             [(ngModel)]="currentReminder.reminderText"
+             placeholder="e.g. Stay hydrated!" />
+    </div>
+
+    <div class="form-group">
+      <label>Reminder Time</label>
+      <input type="datetime-local"
+             [(ngModel)]="currentReminder.reminderTime" [min]="getTodayDate()"/>
+    </div>
+
+    <div class="suggestions" *ngIf="timeSuggestions.length > 0">
+      <label>💡 Suggested Times</label>
+      <div class="suggestion-chips">
+        <button *ngFor="let t of timeSuggestions"
+                class="chip"
+                (click)="applySuggestion(t)">
+          {{ t }}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-save" (click)="saveReminder()">
+        {{ isEditMode ? 'Update' : 'Save' }}
+      </button>
+      <button class="btn-cancel" (click)="cancelForm()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="empty-state"
+       *ngIf="reminders.length === 0 && !isFormVisible">
+    <div class="empty-icon">🔔</div>
+    <p>No reminders yet!</p>
+    <small>Click <strong>+ Add Reminder</strong> to stay on track</small>
+  </div>
+
+  <div class="reminder-grid">
+    <div class="reminder-card"
+         *ngFor="let r of reminders"
+         [ngClass]="[getTypeColor(r.reminderType),
+                     r.isCompleted ? 'card-completed' : '']">
+
+      <div class="card-header">
+        <span class="type-icon">{{ getTypeIcon(r.reminderType) }}</span>
+        <span class="card-title">{{ r.title }}</span>
+        <span class="status-dot"
+              [ngClass]="r.isCompleted ? 'dot-done' : 'dot-pending'">
+        </span>
+      </div>
+
+      <div class="card-body">
+        <p class="card-desc">{{ r.reminderText }}</p>
+        <div class="card-time">
+          ⏰ {{ r.reminderTime | date:'MMM d, y — h:mm a' }}
+        </div>
+        <div class="card-status">
+          <span [ngClass]="r.isCompleted ?
+                           'badge-completed' : 'badge-pending'">
+            {{ r.isCompleted ? '✅ Completed' : '⏳ Pending' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-action btn-edit"
+                (click)="editReminder(r)">
+          ✏️ Edit
+        </button>
+        <button class="btn-action btn-complete"
+                (click)="markComplete(r.reminderId!)"
+                [disabled]="r.isCompleted ?? false">
+          ✅ Done
+        </button>
+        <button class="btn-action btn-delete"
+                (click)="deleteReminder(r.reminderId!)">
+          🗑️ Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

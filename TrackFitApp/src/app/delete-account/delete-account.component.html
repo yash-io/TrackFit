@@ -1,0 +1,31 @@
+<div class="container">
+
+  <div class="header">
+    <span class="icon">⚠️</span>
+    <h2>Delete Account</h2>
+  </div>
+
+  <p class="warning-text">
+    This action is permanent and cannot be undone.
+  </p>
+
+  <!-- Delete Button -->
+  <button (click)="openConfirm()">Delete Account</button>
+
+  <!-- Response Message -->
+  <p class="response">{{ responseMessage }}</p>
+
+</div>
+
+<!-- Popup -->
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup-box">
+    <h3>⚠️ Confirm Delete</h3>
+    <p>Are you sure you want to delete your account?</p>
+
+    <div class="popup-actions">
+      <button class="yes-btn" (click)="confirmDelete()">Yes</button>
+      <button class="cancel-btn" (click)="closePopup()">Cancel</button>
+    </div>
+  </div>
+</div>

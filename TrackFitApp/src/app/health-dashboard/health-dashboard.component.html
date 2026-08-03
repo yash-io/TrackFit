@@ -1,0 +1,235 @@
+<div class="dashboard-bg">
+
+  <div class="container py-4">
+    <h2 class="mb-4 text-center">Health and Fitness</h2>
+    <!--<h6 class="mb-2 text-center">click on each card to view more info </h6>-->
+    <p class="cursor-pointer text-center" routerLink="/reports" > Click here to view Performance Analytics </p>
+    <div class="row g-4">
+
+      <!-- calories -->
+      <div class="col-md-3">
+        <div class="card shadow card-hover calories" (click)="openCard('calories')">
+          <div class="card-body text-center">
+
+            <div class="ring">
+              <svg width="90" height="90">
+                <circle class="bg" cx="45" cy="45" r="40"></circle>
+                <circle class="progress"
+                        cx="45" cy="45" r="40"
+                        [style.stroke-dashoffset]="getProgressOffset(DashBoardDetails?.caloriesBurned, 500)">
+                </circle>
+              </svg>
+              <div class="ring-text">
+                {{DashBoardDetails?.caloriesBurned}}
+              </div>
+            </div>
+
+            <h6 class="sub mt-2">Workout Performance</h6>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- water -->
+      <div class="col-md-3">
+        <div class="card shadow card-hover water" (click)="openCard('water')">
+          <div class="card-body text-center">
+
+            <div class="ring">
+              <svg width="90" height="90">
+                <circle class="bg" cx="45" cy="45" r="40"></circle>
+                <circle class="progress"
+                        cx="45" cy="45" r="40"
+                        [style.stroke-dashoffset]="getProgressOffset(DashBoardDetails?.waterIntake, healthGoals.water)">
+                </circle>
+              </svg>
+              <div class="ring-text">
+                {{DashBoardDetails?.waterIntake}} ml
+              </div>
+            </div>
+
+            <h6 class="sub mt-2">Hydration</h6>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- sleep -->
+      <div class="col-md-3">
+        <div class="card shadow card-hover sleep" (click)="openCard('sleep')">
+          <div class="card-body text-center">
+
+            <div class="ring">
+              <svg width="90" height="90">
+                <circle class="bg" cx="45" cy="45" r="40"></circle>
+                <circle class="progress"
+                        cx="45" cy="45" r="40"
+                        [style.stroke-dashoffset]="getProgressOffset(DashBoardDetails?.sleepHours, 8)">
+                </circle>
+              </svg>
+              <div class="ring-text">
+                {{DashBoardDetails?.sleepHours}}h
+              </div>
+            </div>
+
+            <h6 class="sub mt-2">Sleeping Hours</h6>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- BMI -->
+      <div class="col-md-3">
+        <div class="card shadow card-hover bmi" (click)="openCard('bmi')">
+          <div class="card-body text-center">
+
+            <div class="ring">
+              <svg width="90" height="90">
+                <circle class="bg" cx="45" cy="45" r="40"></circle>
+                <circle class="progress"
+                        cx="45" cy="45" r="40"
+                        [style.stroke-dashoffset]="getProgressOffset(CompleteDetails?.latestBMI, 30)">
+                </circle>
+              </svg>
+              <div class="ring-text">
+                {{DashBoardDetails?.bmi}}
+              </div>
+            </div>
+
+            <h6 class="sub mt-2">Body-Mass</h6>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Common ring -->
+  
+  <div class="common-ring">
+    
+
+    <div class="col-md-3">
+      
+      <div class="common-card shadow card-hover bmi">
+        <div class="card-body text-center">
+          <div>
+            <p>Compare Your avg stats with Today's Leaderboard</p>
+            <select [(ngModel)]="selectedMetric" (change)="getMetricChange()" class="dropdown">
+              <option value="caloriesBurned">calories</option>
+              <option value="waterIntake(in Ml)">water</option>
+              <option value="bmi">BMI</option>
+            </select>
+          </div>
+          <div class="ring">
+            <svg width="90" height="90">
+              <circle class="bg" cx="45" cy="45" r="40"></circle>
+              <circle class="progress"
+                      cx="45" cy="45" r="40"
+                      [style.stroke-dashoffset]="getProgressOffset(currentVal,currentLeadVal)">
+              </circle>
+            </svg>
+            <div class="ring-text">
+              {{currentVal}} vs {{currentLeadVal}}
+            </div>
+          </div>
+
+          <h6 class="sub mt-2"> your {{selectedMetric}} vs leaderBoard</h6>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<!-- modal -->
+<div class="modal fade show d-block" *ngIf="selectedCard">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content glass-modal animate-modal">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title">{{ getTitle() }}</h5>
+        <button type="button" class="btn-close btn-color" (click)="closeCard()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- calories -->
+        <div *ngIf="selectedCard === 'calories'" class="detail-content">
+          <h1 class="main-value">{{DashBoardDetails?.caloriesBurned}}</h1>
+          <p class="sub">Calories burned today</p>
+
+          <div class="stat-row">
+            <div>
+              <h3>{{CompleteDetails?.avgCaloriesPerWorkout | number:'1.0-0'}}</h3>
+              <span class="hint">Avg</span>
+            </div>
+            <div>
+              <h3>{{CompleteDetails?.bestWorkout}}</h3>
+              <span class="hint">Best</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- water -->
+        <div *ngIf="selectedCard === 'water'" class="detail-content">
+          <h1 class="main-value">{{DashBoardDetails?.waterIntake}} ml</h1>
+          <p class="sub">Today's hydration</p>
+
+          <div class="progress-bar big">
+            <div class="progress-fill"
+                 [style.width.%]="(DashBoardDetails?.waterIntake / healthGoals.water) * 100">
+            </div>
+          </div>
+
+          <div class="stat-row">
+            <div>
+              <h3>{{CompleteDetails?.avgWaterPerDrink | number:'1.0-0'}}</h3>
+              <span class="hint">Avg intake</span>
+            </div>
+            <div>
+              <h3>{{CompleteDetails?.waterEntries}}</h3>
+              <span class="hint">Times</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- sleep -->
+        
+        <div *ngIf="selectedCard === 'sleep'" class="detail-content">
+          <h1 class="main-value">{{DashBoardDetails?.sleepHours}} hrs</h1>
+          <p class="sub">Sleep today</p>
+
+          <p class="status"
+             [ngClass]="{'good': CompleteDetails?.sleepConsistency === 'Consistent', 'bad': CompleteDetails?.sleepConsistency === 'Irregular'}">
+            {{ CompleteDetails?.sleepConsistency }}
+          </p>
+
+          <p class="hint">Avg: {{CompleteDetails?.avgSleep | number:'1.1-1'}} hrs</p>
+        </div>
+
+        <!-- BMI -->
+        <div *ngIf="selectedCard === 'bmi'" class="detail-content">
+          <h1 class="main-value">{{CompleteDetails?.latestBMI}}</h1>
+          <p class="sub">Current BMI</p>
+
+          <p class="status"
+             [ngClass]="{'down': CompleteDetails?.bmiChange < 0, 'up': CompleteDetails?.bmiChange > 0}">
+            {{ CompleteDetails?.bmiChange > 0 ? '+' : '' }}{{ CompleteDetails?.bmiChange }}
+          </p>
+
+          <p class="hint">Change from last</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop fade show blur-bg" *ngIf="selectedCard"></div>
+
+
