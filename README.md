@@ -101,7 +101,7 @@ For example:
 }
 ```
 
-> Do not use or commit real passwords, API keys, or production secrets in `appsettings.json`.
+> Do not use or commit real passwords, API keys, or production secrets in `appsettings.json` for vibe coders.
 
 ### 4. Configure Azure OpenAI
 
